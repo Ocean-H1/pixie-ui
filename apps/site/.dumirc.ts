@@ -32,6 +32,7 @@ export default defineConfig({
           children: [
             { title: 'Button 按钮', link: '/components/button' },
             { title: 'Input 输入框', link: '/components/input' },
+            { title: 'Table 表格', link: '/components/table' },
           ],
         },
       ],
