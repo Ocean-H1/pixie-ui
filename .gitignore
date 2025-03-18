@@ -12,6 +12,9 @@ es
 # 测试
 coverage
 
+# dumi 临时文件
+apps/site/.dumi/tmp
+
 # 编辑器
 .idea
 .vscode
