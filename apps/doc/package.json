@@ -1,0 +1,23 @@
+{
+  "name": "@pixie-ui/docs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Pixie UI组件库文档",
+  "scripts": {
+    "dev": "dumi dev",
+    "build": "dumi build",
+    "prepare": "dumi setup",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@pixie-ui/core": "workspace:*",
+    "@pixie-ui/theme": "workspace:*"
+  },
+  "devDependencies": {
+    "dumi": "^2.4.18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
