@@ -25,17 +25,19 @@
 ```
 pixie-ui/
 ├── apps/                # 应用
-│   └── site/            # 文档站点
+│   └── site/            # 文档站点 (dumi)
 ├── examples/            # 示例
 │   └── basic/           # 基础示例
 ├── packages/            # 包
 │   ├── core/            # 核心组件
 │   ├── hooks/           # 钩子函数
-│   ├── theme/           # 主题
+│   ├── theme/           # 主题系统
 │   └── utils/           # 工具函数
+├── .husky/              # Git Hooks配置
 ├── .eslintrc.js         # ESLint 配置
 ├── .prettierrc          # Prettier 配置
 ├── .stylelintrc.js      # Stylelint 配置
+├── .lintstagedrc        # Lint-staged 配置
 ├── jest.config.js       # Jest 配置
 ├── package.json         # 项目配置
 ├── pnpm-workspace.yaml  # PNPM 工作区配置
@@ -53,7 +55,7 @@ pnpm install
 pnpm build
 
 # 启动文档站点
-pnpm --filter @pixie-ui/docs dev
+pnpm --filter @pixie-ui/site dev
 
 # 启动示例应用
 pnpm --filter @pixie-ui/example-basic dev
@@ -70,13 +72,17 @@ pnpm lint
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button, Input } from '@pixie-ui/core';
+import { Button, Input, Table } from '@pixie-ui/core';
+import { ThemeProvider } from '@pixie-ui/theme';
 
 const App = () => (
-  <div>
-    <Button variant="primary">按钮</Button>
-    <Input placeholder="请输入内容" />
-  </div>
+  <ThemeProvider>
+    <div>
+      <Button variant="primary">按钮</Button>
+      <Input placeholder="请输入内容" />
+      <Table dataSource={[...]} columns={[...]} />
+    </div>
+  </ThemeProvider>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
@@ -98,7 +104,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 3. 启动开发环境
    ```bash
    # 启动文档站点
-   pnpm --filter @pixie-ui/docs dev
+   pnpm --filter @pixie-ui/site dev
    
    # 启动示例应用
    pnpm --filter @pixie-ui/example-basic dev
