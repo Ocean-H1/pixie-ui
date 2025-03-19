@@ -16,7 +16,7 @@
 - React
 - TypeScript
 - Emotion (CSS-in-JS)
-- Turborepo (Monorepo)
+- Pnpm + Turborepo (Monorepo)
 - Jest (单元测试)
 - Dumi (文档生成)
 
