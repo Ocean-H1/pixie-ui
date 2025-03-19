@@ -44,5 +44,5 @@ lerna-debug.log*
 .DS_Store
 Thumbs.db
 
-# 提示
-*.prompt.md
+# 配置
+.cursorrules
