@@ -1,5 +1,15 @@
 # @pixie-ui/core
 
+## 1.0.1
+
+### Patch Changes
+
+- update packages.json
+- Updated dependencies
+  - @pixie-ui/hooks@1.0.1
+  - @pixie-ui/theme@1.0.1
+  - @pixie-ui/utils@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

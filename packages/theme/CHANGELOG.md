@@ -1,5 +1,13 @@
 # @pixie-ui/theme
 
+## 1.0.1
+
+### Patch Changes
+
+- update packages.json
+- Updated dependencies
+  - @pixie-ui/utils@1.0.1
+
 ## 1.0.0
 
 ### Minor Changes

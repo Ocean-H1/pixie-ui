@@ -1,6 +1,6 @@
 {
   "name": "@pixie-ui/utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pixie UI组件库工具函数",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -10,6 +10,20 @@
   "files": [
     "dist/**"
   ],
+  "keywords": [
+    "react",
+    "utils",
+    "typescript"
+  ],
+  "author": "Oceanhhan",
+  "homepage": "https://ocean-h1.github.io/pixie-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ocean-H1/pixie-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ocean-H1/AgileDesign/issues"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
