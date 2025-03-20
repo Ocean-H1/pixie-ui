@@ -26,7 +26,12 @@ jobs:
         run: pnpm install
 
       - name: Build internal packages and docs
-        run: pnpm run build
+        run: |
+          pnpm tsc -p tsconfig.build.json
+          pnpm run build
+        env:
+          NODE_ENV: production
+          CI: true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

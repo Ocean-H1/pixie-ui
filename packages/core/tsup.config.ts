@@ -1,6 +1,8 @@
 import { defineConfig } from 'tsup';
+import { baseConfig } from '../../tsup.config.base';
 
 export default defineConfig({
+  ...baseConfig,
   entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: true,
@@ -17,4 +19,8 @@ export default defineConfig({
     '@pixie-ui/theme',
     '@pixie-ui/utils',
   ],
+  noExternal: ['@emotion/*'],
+  banner: {
+    js: '"use client";',
+  },
 }); 

@@ -1,6 +1,8 @@
 import { defineConfig } from 'tsup';
+import { baseConfig } from '../../tsup.config.base';
 
 export default defineConfig({
+  ...baseConfig,
   entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
   dts: true,
@@ -8,5 +10,11 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  external: ['react', '@testing-library/react-hooks'],
+  external: [
+    'react',
+    '@testing-library/react-hooks',
+  ],
+  banner: {
+    js: '"use client";',
+  },
 }); 
