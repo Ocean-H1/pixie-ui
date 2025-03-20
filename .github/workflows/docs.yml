@@ -25,6 +25,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build internal packages
+        run: |
+          pnpm --filter @pixie-ui/core build
+          pnpm --filter @pixie-ui/theme build
+
       - name: Build docs
         run: pnpm --filter @pixie-ui/docs build
 
