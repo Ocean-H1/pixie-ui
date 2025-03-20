@@ -26,9 +26,7 @@ jobs:
         run: pnpm install
 
       - name: Build internal packages and docs
-        run: |
-          pnpm tsc -p tsconfig.build.json
-          pnpm run build
+        run: pnpm run build
         env:
           NODE_ENV: production
           CI: true

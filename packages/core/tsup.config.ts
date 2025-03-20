@@ -19,8 +19,4 @@ export default defineConfig({
     '@pixie-ui/theme',
     '@pixie-ui/utils',
   ],
-  noExternal: ['@emotion/*'],
-  banner: {
-    js: '"use client";',
-  },
 }); 
