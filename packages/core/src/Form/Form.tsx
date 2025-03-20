@@ -12,7 +12,7 @@ export interface FormRule {
   min?: number;
   max?: number;
   pattern?: RegExp;
-  validator?: (value: any) => boolean | Promise<boolean>;
+  validator?: (value: any, formValues?: Record<string, any>) => boolean | Promise<boolean>;
 }
 
 // 表单状态
@@ -20,6 +20,7 @@ export interface FormState {
   values: Record<string, any>;
   errors: Record<string, string[]>;
   touched: Record<string, boolean>;
+  rules: Record<string, FormRule[]>;
 }
 
 // 表单上下文
@@ -30,7 +31,7 @@ export interface FormContextType {
   setFieldError: (name: string, errors: string[]) => void;
   setFieldTouched: (name: string, touched: boolean) => void;
   registerField: (name: string, rules?: FormRule[]) => void;
-  validateField: (name: string) => Promise<boolean>;
+  validateField: (name: string, value?: any) => Promise<string[]>;
   validateForm: () => Promise<boolean>;
   resetForm: () => void;
 }
@@ -82,6 +83,63 @@ const StyledForm = styled.form<{
 `;
 
 /**
+ * 获取嵌套对象的属性值
+ * @param obj 对象
+ * @param path 属性路径
+ * @returns 属性值
+ */
+const getNestedValue = (obj: Record<string, any>, path: string): any => {
+  if (!obj || !path) return undefined;
+  
+  // 处理数组表示法，例如：users[0].name
+  const formattedPath = path.replace(/\[(\w+)\]/g, '.$1');
+  const keys = formattedPath.split('.');
+  
+  let result = obj;
+  for (const key of keys) {
+    if (!result || typeof result !== 'object') return undefined;
+    result = result[key];
+  }
+  
+  return result;
+};
+
+/**
+ * 设置嵌套对象的属性值
+ * @param obj 对象
+ * @param path 属性路径
+ * @param value 属性值
+ * @returns 更新后的对象
+ */
+const setNestedValue = (obj: Record<string, any>, path: string, value: any): Record<string, any> => {
+  if (!path) return obj;
+  
+  const result = { ...obj };
+  
+  // 处理数组表示法，例如：users[0].name
+  const formattedPath = path.replace(/\[(\w+)\]/g, '.$1');
+  const keys = formattedPath.split('.');
+  
+  let current = result;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    // 如果属性不存在或不是对象，创建一个新的对象或数组
+    if (!current[key] || typeof current[key] !== 'object') {
+      // 判断下一个key是否是数字，如果是则创建数组，否则创建对象
+      const nextKey = keys[i + 1];
+      const isNextKeyNumeric = /^\d+$/.test(nextKey);
+      current[key] = isNextKeyNumeric ? [] : {};
+    }
+    current = current[key];
+  }
+  
+  const lastKey = keys[keys.length - 1];
+  current[lastKey] = value;
+  
+  return result;
+};
+
+/**
  * 表单组件
  * @param props 组件属性
  * @returns 表单组件
@@ -102,22 +160,38 @@ export const Form: React.FC<FormProps> = ({
     values: { ...initialValues },
     errors: {},
     touched: {},
+    rules: {},
   });
 
   // 注册表单字段
   const registerField = useCallback((name: string, rules?: FormRule[]) => {
+    if (!name) return;
+    
     setState(prevState => {
-      // 如果字段已经存在，则不需要重新注册
-      if (Object.prototype.hasOwnProperty.call(prevState.values, name)) {
-        return prevState;
+      // 检查字段是否已经存在
+      if (prevState.rules[name]) {
+        // 如果规则相同，不需要更新
+        if (JSON.stringify(prevState.rules[name]) === JSON.stringify(rules || [])) {
+          return prevState;
+        }
+        
+        // 仅更新规则
+        return {
+          ...prevState,
+          rules: {
+            ...prevState.rules,
+            [name]: rules || [],
+          },
+        };
       }
+      
+      // 初始化字段值（支持嵌套字段）
+      const value = getNestedValue(prevState.values, name);
+      const defaultValue = value !== undefined ? value : '';
       
       return {
         ...prevState,
-        values: {
-          ...prevState.values,
-          [name]: prevState.values[name] !== undefined ? prevState.values[name] : '',
-        },
+        values: setNestedValue(prevState.values, name, defaultValue),
         errors: {
           ...prevState.errors,
           [name]: [],
@@ -126,17 +200,20 @@ export const Form: React.FC<FormProps> = ({
           ...prevState.touched,
           [name]: false,
         },
+        rules: {
+          ...prevState.rules,
+          [name]: rules || [],
+        },
       };
     });
   }, []);
 
   // 设置字段值
   const setFieldValue = useCallback((name: string, value: any) => {
+    if (!name) return;
+    
     setState(prevState => {
-      const newValues = {
-        ...prevState.values,
-        [name]: value,
-      };
+      const newValues = setNestedValue(prevState.values, name, value);
       
       // 调用onChange回调
       if (onChange) {
@@ -152,6 +229,8 @@ export const Form: React.FC<FormProps> = ({
 
   // 设置字段错误
   const setFieldError = useCallback((name: string, errors: string[]) => {
+    if (!name) return;
+    
     setState(prevState => ({
       ...prevState,
       errors: {
@@ -163,6 +242,8 @@ export const Form: React.FC<FormProps> = ({
 
   // 设置字段触碰状态
   const setFieldTouched = useCallback((name: string, touched: boolean) => {
+    if (!name) return;
+    
     setState(prevState => ({
       ...prevState,
       touched: {
@@ -173,33 +254,78 @@ export const Form: React.FC<FormProps> = ({
   }, []);
 
   // 验证字段
-  const validateField = useCallback(async (name: string): Promise<boolean> => {
-    // 获取对应的FormItem组件，以便获取验证规则
-    const value = state.values[name];
+  const validateField = useCallback(async (name: string, value?: any): Promise<string[]> => {
+    if (!name) return [];
+    
+    // 使用传入的值或从状态中获取值
+    const fieldValue = value !== undefined ? value : getNestedValue(state.values, name);
+    const rules = state.rules[name] || [];
     const fieldErrors: string[] = [];
     
-    // 这里应该是从FormItem获取规则，但目前简化处理
-    // 在实际使用中，规则会从FormItem组件传入
+    // 使用字段的规则进行验证
+    for (const rule of rules) {
+      // 必填验证
+      if (rule.required && (fieldValue === undefined || fieldValue === null || fieldValue === '')) {
+        fieldErrors.push(rule.message || '该字段为必填项');
+        continue;
+      }
+      
+      // 跳过空值（非必填字段为空时不进行后续验证）
+      if (fieldValue === undefined || fieldValue === null || fieldValue === '') {
+        continue;
+      }
+      
+      // 最小值验证
+      if (rule.min !== undefined && Number(fieldValue) < rule.min) {
+        fieldErrors.push(rule.message || `不能小于 ${rule.min}`);
+        continue;
+      }
+      
+      // 最大值验证
+      if (rule.max !== undefined && Number(fieldValue) > rule.max) {
+        fieldErrors.push(rule.message || `不能大于 ${rule.max}`);
+        continue;
+      }
+      
+      // 正则验证
+      if (rule.pattern && !rule.pattern.test(String(fieldValue))) {
+        fieldErrors.push(rule.message || '格式不正确');
+        continue;
+      }
+      
+      // 自定义验证器
+      if (rule.validator) {
+        try {
+          const result = await Promise.resolve(rule.validator(fieldValue, state.values));
+          if (!result) {
+            fieldErrors.push(rule.message || '验证失败');
+          }
+        } catch (error) {
+          fieldErrors.push(rule.message || '验证出错');
+        }
+      }
+    }
     
     // 更新错误状态
     setFieldError(name, fieldErrors);
     
-    return fieldErrors.length === 0;
-  }, [state.values, setFieldError]);
+    return fieldErrors;
+  }, [state.values, state.rules, setFieldError]);
 
   // 验证整个表单
   const validateForm = useCallback(async (): Promise<boolean> => {
-    const fieldNames = Object.keys(state.values);
-    const results = await Promise.all(fieldNames.map(name => validateField(name)));
+    const fieldNames = Object.keys(state.rules);
+    const validationPromises = fieldNames.map(name => validateField(name));
+    const validationResults = await Promise.all(validationPromises);
     
-    const isValid = results.every(Boolean);
+    const isValid = validationResults.every(errors => errors.length === 0);
     
     if (!isValid && onError) {
       onError(state.errors);
     }
     
     return isValid;
-  }, [state.values, state.errors, validateField, onError]);
+  }, [state.rules, state.errors, validateField, onError]);
 
   // 重置表单
   const resetForm = useCallback(() => {
@@ -207,8 +333,9 @@ export const Form: React.FC<FormProps> = ({
       values: { ...initialValues },
       errors: {},
       touched: {},
+      rules: { ...state.rules },
     });
-  }, [initialValues]);
+  }, [initialValues, state.rules]);
 
   // 处理表单提交
   const handleSubmit = async (e: React.FormEvent) => {

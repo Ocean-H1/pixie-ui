@@ -61,10 +61,28 @@ export const FormList: React.FC<FormListProps> = ({ name, children }) => {
   const { state, setFieldValue } = form;
   const { values } = state;
 
+  // 获取嵌套字段值的辅助函数
+  const getNestedValue = useCallback((obj: Record<string, any>, path: string): any => {
+    if (!obj || !path) return undefined;
+    
+    // 处理数组表示法，例如：users[0].name
+    const formattedPath = path.replace(/\[(\w+)\]/g, '.$1');
+    const keys = formattedPath.split('.');
+    
+    let result = obj;
+    for (const key of keys) {
+      if (!result || typeof result !== 'object') return undefined;
+      result = result[key];
+    }
+    
+    return result;
+  }, []);
+
   // 获取字段值
   const getFieldValue = useCallback(() => {
-    return values[name] || [];
-  }, [name, values]);
+    const value = getNestedValue(values, name);
+    return Array.isArray(value) ? value : [];
+  }, [name, values, getNestedValue]);
 
   // 设置字段值
   const setValue = useCallback((newValue: any[]) => {
@@ -80,6 +98,8 @@ export const FormList: React.FC<FormListProps> = ({ name, children }) => {
   // 移除字段
   const remove = useCallback((index: number) => {
     const currentValue = getFieldValue();
+    if (index < 0 || index >= currentValue.length) return;
+    
     const newValue = [...currentValue];
     newValue.splice(index, 1);
     setValue(newValue);
@@ -88,6 +108,16 @@ export const FormList: React.FC<FormListProps> = ({ name, children }) => {
   // 移动字段
   const move = useCallback((from: number, to: number) => {
     const currentValue = getFieldValue();
+    if (
+      from < 0 || 
+      from >= currentValue.length || 
+      to < 0 || 
+      to >= currentValue.length ||
+      from === to
+    ) {
+      return;
+    }
+    
     const newValue = [...currentValue];
     const [movedItem] = newValue.splice(from, 1);
     newValue.splice(to, 0, movedItem);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Theme, useTheme } from '@pixie-ui/theme';
 import { FormContextType, FormRule, useForm } from './Form';
@@ -32,6 +32,7 @@ export interface FormItemProps {
 export interface FormItemRenderProps {
   value: any;
   onChange: (value: any) => void;
+  onBlur: () => void;
   error: string[];
   touched: boolean;
   disabled?: boolean;
@@ -63,7 +64,7 @@ const Label = styled.label<{
 }>`
   color: ${({ theme }) => theme.colors.text.primary};
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   
   ${({ $required, theme }) =>
     $required &&
@@ -71,7 +72,7 @@ const Label = styled.label<{
     &::after {
       content: '*';
       color: ${theme.colors.error};
-      margin-left: 4px;
+      margin-left: ${theme.spacing.xs};
     }
   `}
 `;
@@ -80,7 +81,7 @@ const Label = styled.label<{
 const ErrorMessage = styled.div<{ theme: Theme }>`
   color: ${({ theme }) => theme.colors.error};
   font-size: ${({ theme }) => theme.fontSizes.xs};
-  margin-top: 4px;
+  margin-top: ${({ theme }) => theme.spacing.xs};
 `;
 
 /**
@@ -97,72 +98,59 @@ export const FormItem: React.FC<FormItemProps> = ({
 }) => {
   const theme = useTheme();
   const form = useForm();
-  const { layout, state, setFieldValue, setFieldError, setFieldTouched, registerField } = form;
+  const { layout, state, setFieldValue, setFieldTouched, registerField, validateField } = form;
   const { values, errors, touched } = state;
-  const rulesRef = useRef<FormRule[]>(rules);
 
   // 注册字段
   useEffect(() => {
-    registerField(name, rules);
-  }, [name, registerField, rules]);
-
-  // 更新规则引用
-  useEffect(() => {
-    rulesRef.current = rules;
-  }, [rules]);
-
-  // 验证字段
-  const validateField = async (value: any): Promise<string[]> => {
-    const fieldErrors: string[] = [];
-    const currentRules = rulesRef.current;
-
-    for (const rule of currentRules) {
-      if (rule.required && !value) {
-        fieldErrors.push(rule.message || '该字段为必填项');
-        continue;
-      }
-
-      if (rule.min !== undefined && value < rule.min) {
-        fieldErrors.push(rule.message || `不能小于 ${rule.min}`);
-        continue;
-      }
-
-      if (rule.max !== undefined && value > rule.max) {
-        fieldErrors.push(rule.message || `不能大于 ${rule.max}`);
-        continue;
-      }
-
-      if (rule.pattern && !rule.pattern.test(value)) {
-        fieldErrors.push(rule.message || '格式不正确');
-        continue;
-      }
-
-      if (rule.validator) {
-        const isValid = await rule.validator(value);
-        if (!isValid) {
-          fieldErrors.push(rule.message || '验证失败');
-        }
-      }
+    // 如果required为true但rules中没有required规则，添加一个
+    const finalRules = [...rules];
+    if (required && !finalRules.some(rule => rule.required)) {
+      finalRules.push({
+        required: true,
+        message: '该字段为必填项',
+      });
     }
-
-    return fieldErrors;
-  };
+    
+    registerField(name, finalRules);
+  }, [name, registerField, rules, required]);
 
   // 处理值变化
   const handleChange = async (value: any) => {
     setFieldValue(name, value);
     setFieldTouched(name, true);
-
-    const fieldErrors = await validateField(value);
-    setFieldError(name, fieldErrors);
+    
+    // 使用Form组件的验证逻辑
+    await validateField(name, value);
   };
 
   // 处理失焦
   const handleBlur = async () => {
     setFieldTouched(name, true);
-    const fieldErrors = await validateField(values[name]);
-    setFieldError(name, fieldErrors);
+    
+    // 使用Form组件的验证逻辑
+    await validateField(name);
   };
+
+  // 获取字段的值
+  const value = name && name.includes('.') || name.includes('[') 
+    ? getFieldValueFromState(name, values)
+    : values[name];
+
+  // 安全地获取嵌套字段值的辅助函数
+  function getFieldValueFromState(fieldName: string, stateValues: Record<string, any>): any {
+    // 处理数组表示法，例如：users[0].name
+    const formattedPath = fieldName.replace(/\[(\w+)\]/g, '.$1');
+    const keys = formattedPath.split('.');
+    
+    let result = stateValues;
+    for (const key of keys) {
+      if (!result || typeof result !== 'object') return undefined;
+      result = result[key];
+    }
+    
+    return result;
+  }
 
   return (
     <FormItemContainer $layout={layout} theme={theme}>
@@ -173,8 +161,9 @@ export const FormItem: React.FC<FormItemProps> = ({
       )}
       <div style={{ flex: 1 }}>
         {children({
-          value: values[name],
+          value,
           onChange: handleChange,
+          onBlur: handleBlur,
           error: errors[name] || [],
           touched: touched[name] || false,
           form,
