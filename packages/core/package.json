@@ -1,6 +1,6 @@
 {
   "name": "@pixie-ui/core",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Pixie UI组件库核心组件",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -39,4 +39,4 @@
   "publishConfig": {
     "access": "public"
   }
-} 
+}

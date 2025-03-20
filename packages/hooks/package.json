@@ -1,6 +1,6 @@
 {
   "name": "@pixie-ui/hooks",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Pixie UI组件库钩子函数",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -27,4 +27,4 @@
   "publishConfig": {
     "access": "public"
   }
-} 
+}

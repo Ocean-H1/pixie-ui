@@ -12,7 +12,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build && changeset publish",
+    "release": "pnpm run tsc && turbo run build && changeset publish",
     "tsc": "tsc --noEmit"
   },
   "devDependencies": {

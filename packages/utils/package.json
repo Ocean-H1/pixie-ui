@@ -1,6 +1,6 @@
 {
   "name": "@pixie-ui/utils",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Pixie UI组件库工具函数",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,4 +21,4 @@
   "publishConfig": {
     "access": "public"
   }
-} 
+}
