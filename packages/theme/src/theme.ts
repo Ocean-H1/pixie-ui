@@ -13,6 +13,14 @@ export interface ThemeColors {
     disabled: string;
   };
   border: string;
+  hover: {
+    primary: string;
+    secondary: string;
+    text: string;
+  };
+  disabled: {
+    background: string;
+  };
 }
 
 export interface ThemeShadows {
@@ -46,6 +54,24 @@ export interface ThemeFontSizes {
   xxl: string;
 }
 
+export interface ThemeTypography {
+  fontWeight: {
+    regular: number;
+    medium: number;
+    bold: number;
+  };
+  lineHeight: {
+    normal: number;
+    relaxed: number;
+    loose: number;
+  };
+  letterSpacing: {
+    normal: string;
+    wide: string;
+    wider: string;
+  };
+}
+
 export interface ThemeRadii {
   xs: string;
   sm: string;
@@ -61,6 +87,7 @@ export interface Theme {
   spacing: ThemeSpacing;
   breakpoints: ThemeBreakpoints;
   fontSizes: ThemeFontSizes;
+  typography: ThemeTypography;
   radii: ThemeRadii;
 }
 
@@ -80,6 +107,14 @@ export const lightTheme: Theme = {
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
     border: 'rgba(0, 0, 0, 0.12)',
+    hover: {
+      primary: '#1565c0',
+      secondary: '#7b1fa2',
+      text: 'rgba(25, 118, 210, 0.08)',
+    },
+    disabled: {
+      background: 'rgba(0, 0, 0, 0.12)',
+    },
   },
   shadows: {
     sm: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
@@ -108,6 +143,23 @@ export const lightTheme: Theme = {
     xl: '1.5rem',
     xxl: '2rem',
   },
+  typography: {
+    fontWeight: {
+      regular: 400,
+      medium: 500,
+      bold: 700,
+    },
+    lineHeight: {
+      normal: 1.5,
+      relaxed: 1.75,
+      loose: 2,
+    },
+    letterSpacing: {
+      normal: '0.01em',
+      wide: '0.02em',
+      wider: '0.03em',
+    },
+  },
   radii: {
     xs: '2px',
     sm: '4px',
@@ -130,5 +182,11 @@ export const darkTheme: Theme = {
       disabled: 'rgba(255, 255, 255, 0.38)',
     },
     border: 'rgba(255, 255, 255, 0.12)',
+    hover: {
+      ...lightTheme.colors.hover,
+    },
+    disabled: {
+      background: 'rgba(255, 255, 255, 0.12)',
+    },
   },
 }; 
