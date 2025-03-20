@@ -55,7 +55,7 @@ const getColor = (variant: ButtonVariant, theme: Theme) => {
 };
 
 // 获取按钮边框
-const getBorder = (variant: ButtonVariant, theme: Theme) => {
+const getBorder = (variant: ButtonVariant) => {
   switch (variant) {
     case 'primary':
     case 'secondary':
@@ -71,27 +71,27 @@ const getBorder = (variant: ButtonVariant, theme: Theme) => {
 const getHoverBackgroundColor = (variant: ButtonVariant, theme: Theme) => {
   switch (variant) {
     case 'primary':
-      return '#1565c0'; // 深一点的主色
+      return theme.colors.hover.primary;
     case 'secondary':
-      return '#7b1fa2'; // 深一点的次色
+      return theme.colors.hover.secondary;
     case 'text':
-      return 'rgba(25, 118, 210, 0.08)'; // 带透明度的主色
+      return theme.colors.hover.text;
     default:
-      return '#1565c0';
+      return theme.colors.hover.primary;
   }
 };
 
 // 获取按钮内边距
-const getPadding = (size: ButtonSize) => {
+const getPadding = (size: ButtonSize, theme: Theme) => {
   switch (size) {
     case 'small':
-      return '4px 8px';
+      return `${theme.spacing.xs} ${theme.spacing.sm}`;
     case 'medium':
-      return '6px 16px';
+      return `${theme.spacing.xs} ${theme.spacing.md}`;
     case 'large':
-      return '8px 22px';
+      return `${theme.spacing.sm} ${theme.spacing.lg}`;
     default:
-      return '6px 16px';
+      return `${theme.spacing.xs} ${theme.spacing.md}`;
   }
 };
 
@@ -121,16 +121,16 @@ const StyledButton = styled.button<{
   position: relative;
   box-sizing: border-box;
   outline: 0;
-  border: ${({ $variant, theme }) => getBorder($variant, theme)};
+  border: ${({ $variant }) => getBorder($variant)};
   border-radius: ${({ theme }) => theme.radii.sm};
-  padding: ${({ $size }) => getPadding($size)};
+  padding: ${({ $size, theme }) => getPadding($size, theme)};
   background-color: ${({ $variant, theme }) => getBackgroundColor($variant, theme)};
   color: ${({ $variant, theme }) => getColor($variant, theme)};
   font-family: inherit;
   font-size: ${({ $size, theme }) => getFontSize($size, theme)};
-  font-weight: 500;
-  line-height: 1.75;
-  letter-spacing: 0.02em;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   min-width: 64px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -146,7 +146,7 @@ const StyledButton = styled.button<{
   
   &:disabled {
     color: ${({ theme }) => theme.colors.text.disabled};
-    background-color: ${({ $variant }) => $variant === 'text' ? 'transparent' : 'rgba(0, 0, 0, 0.12)'};
+    background-color: ${({ $variant, theme }) => $variant === 'text' ? 'transparent' : theme.colors.disabled.background};
     cursor: not-allowed;
     pointer-events: none;
   }
