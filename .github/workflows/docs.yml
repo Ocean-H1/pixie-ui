@@ -27,6 +27,8 @@ jobs:
 
       - name: Build internal packages
         run: |
+          pnpm --filter @pixie-ui/hooks build
+          pnpm --filter @pixie-ui/utils build
           pnpm --filter @pixie-ui/core build
           pnpm --filter @pixie-ui/theme build
 
