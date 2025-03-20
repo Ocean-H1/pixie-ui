@@ -1,6 +1,6 @@
 {
   "name": "@pixie-ui/theme",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Pixie UI组件库主题",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
