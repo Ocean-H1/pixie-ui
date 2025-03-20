@@ -20,7 +20,7 @@ export const deepMerge = <T extends Record<string, any>, U extends Record<string
         if (!target[key]) {
           Object.assign(result, { [key]: source[key] });
         } else {
-          result[key] = deepMerge(target[key], source[key]);
+          result[key as keyof (T & U)] = deepMerge(target[key], source[key]) as any;
         }
       } else {
         Object.assign(result, { [key]: source[key] });

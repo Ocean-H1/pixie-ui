@@ -27,9 +27,6 @@ jobs:
 
       - name: Build internal packages and docs
         run: pnpm run build
-        env:
-          NODE_ENV: production
-          CI: true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
