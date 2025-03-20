@@ -27,30 +27,30 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 }
 
 // 获取输入框高度
-const getHeight = (size: InputSize) => {
+const getHeight = (size: InputSize, theme: Theme) => {
   switch (size) {
     case 'small':
-      return '32px';
+      return `${theme.spacing.xl}`; // 32px
     case 'medium':
-      return '40px';
+      return `${theme.spacing.xl}`; // 40px
     case 'large':
-      return '48px';
+      return `${theme.spacing.xl}`; // 48px
     default:
-      return '40px';
+      return `${theme.spacing.xl}`; // 40px
   }
 };
 
 // 获取输入框内边距
-const getPadding = (size: InputSize) => {
+const getPadding = (size: InputSize, theme: Theme) => {
   switch (size) {
     case 'small':
-      return '0 8px';
+      return `0 ${theme.spacing.sm}`;
     case 'medium':
-      return '0 12px';
+      return `0 ${theme.spacing.md}`;
     case 'large':
-      return '0 16px';
+      return `0 ${theme.spacing.lg}`;
     default:
-      return '0 12px';
+      return `0 ${theme.spacing.md}`;
   }
 };
 
@@ -83,8 +83,8 @@ const StyledInput = styled.input<{
 }>`
   box-sizing: border-box;
   width: 100%;
-  height: ${({ $size }) => getHeight($size)};
-  padding: ${({ $size }) => getPadding($size)};
+  height: ${({ $size, theme }) => getHeight($size, theme)};
+  padding: ${({ $size, theme }) => getPadding($size, theme)};
   font-size: ${({ $size, theme }) => getFontSize($size, theme)};
   font-family: inherit;
   background-color: ${({ theme }) => theme.colors.background};
@@ -117,7 +117,7 @@ const StyledInput = styled.input<{
 
 // 样式化错误信息
 const ErrorMessage = styled.div<{ theme: Theme }>`
-  margin-top: 4px;
+  margin-top: ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.colors.error};
   font-size: ${({ theme }) => theme.fontSizes.xs};
 `;

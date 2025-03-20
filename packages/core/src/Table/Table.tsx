@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { Theme, useTheme } from '@pixie-ui/theme';
 
@@ -78,13 +78,13 @@ export interface TableProps<T> {
 const getRowHeight = (size: 'small' | 'medium' | 'large', theme: Theme) => {
   switch (size) {
     case 'small':
-      return '36px';
+      return `${theme.spacing.xl}`; // 36px
     case 'medium':
-      return '48px';
+      return `${theme.spacing.xl}`; // 48px
     case 'large':
-      return '60px';
+      return `${theme.spacing.xl}`; // 60px
     default:
-      return '48px';
+      return `${theme.spacing.xl}`; // 48px
   }
 };
 
@@ -150,7 +150,7 @@ const TableHeaderRow = styled.tr<{
   height: ${({ theme }) => getRowHeight('medium', theme)};
   
   &:hover {
-    background-color: ${({ theme }) => 'rgba(0, 0, 0, 0.04)'};
+    background-color: ${({ theme }) => theme.colors.hover.text};
   }
   
   ${({ className }) => className && `
@@ -168,7 +168,7 @@ const TableHeaderCell = styled.th<{
   $align?: 'left' | 'center' | 'right';
 }>`
   padding: ${({ theme, $size }) => getCellPadding($size, theme)};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   text-align: ${({ $align }) => $align || 'left'};
   color: ${({ theme }) => theme.colors.text.secondary};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
@@ -203,7 +203,7 @@ const TableRow = styled.tr<{
   transition: background-color 0.3s;
   
   &:hover {
-    background-color: ${({ theme }) => 'rgba(0, 0, 0, 0.04)'};
+    background-color: ${({ theme }) => theme.colors.hover.text};
   }
   
   ${({ $striped, $index, theme }) =>
@@ -243,7 +243,7 @@ const EmptyWrapper = styled.div<{ theme: Theme }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px 0;
+  padding: ${({ theme }) => theme.spacing.xl} 0;
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
