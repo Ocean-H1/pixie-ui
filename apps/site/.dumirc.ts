@@ -2,6 +2,8 @@ import { defineConfig } from 'dumi';
 
 export default defineConfig({
   outputPath: 'dist',
+  base: '/pixie-ui/',
+  publicPath: '/pixie-ui/',
   themeConfig: {
     name: 'Pixie UI',
     logo: '/logo.png',
@@ -14,7 +16,6 @@ export default defineConfig({
         {
           title: '介绍',
           children: [
-            { title: '什么是 Pixie UI', link: '/guide/introduction' },
             { title: '快速上手', link: '/guide/getting-started' },
           ],
         },

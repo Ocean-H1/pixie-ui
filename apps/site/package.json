@@ -7,7 +7,8 @@
     "dev": "dumi dev",
     "build": "dumi build",
     "prepare": "dumi setup",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "deploy": "pnpm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "dumi": "^2.4.18",
+    "gh-pages": "^6.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

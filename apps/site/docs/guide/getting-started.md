@@ -19,7 +19,7 @@ pnpm add @pixie-ui/core
 
 ### 完整引入
 
-```tsx
+```tsx | pure
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as PixieUI from '@pixie-ui/core';
@@ -36,7 +36,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ### 按需引入
 
-```tsx
+```tsx | pure
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button, Input } from '@pixie-ui/core';
@@ -55,7 +55,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 下面是一个简单的示例，展示了如何使用 Pixie UI 的按钮组件：
 
-```tsx
+```tsx | pure
 import React from 'react';
 import { Button } from '@pixie-ui/core';
 

@@ -12,8 +12,12 @@ es
 # 测试
 coverage
 
-# dumi 临时文件
+# Docs templates
 apps/site/.dumi/tmp
+apps/site/.dumi/tmp-test
+apps/site/.dumi/tmp-production
+apps/site/.dumi/preset/components-changelog*
+apps/site/.dumi/preset/misc-changelog.json
 
 # 编辑器
 .idea
