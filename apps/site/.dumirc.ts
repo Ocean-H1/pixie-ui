@@ -35,6 +35,7 @@ export default defineConfig({
             { title: 'Input 输入框', link: '/components/input' },
             { title: 'Table 表格', link: '/components/table' },
             { title: 'Form 表单', link: '/components/form' },
+            { title: 'Menu 菜单', link: '/components/menu' },
           ],
         },
       ],
