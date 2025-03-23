@@ -1,284 +1,194 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Theme, useTheme } from '@pixie-ui/theme';
-import { useMenu } from './Menu';
+import { MenuContext, useMenuContext } from './MenuContext';
 
 export interface SubMenuProps {
   /**
-   * 子菜单的唯一标识
+   * 子菜单唯一标识符
    */
-  key: string;
+  id: string;
   /**
    * 子菜单标题
    */
-  title: ReactNode;
+  title: React.ReactNode;
   /**
-   * 子菜单图标
-   */
-  icon?: ReactNode;
-  /**
-   * 子菜单内容
-   */
-  children: ReactNode;
-  /**
-   * 是否禁用
+   * 子菜单是否禁用
    * @default false
    */
   disabled?: boolean;
+  /**
+   * 自定义样式
+   */
+  style?: React.CSSProperties;
+  /**
+   * 自定义 className
+   */
+  className?: string;
+  /**
+   * 子菜单内容
+   */
+  children: React.ReactNode;
 }
 
-const SubMenuWrapper = styled.li<{
+const StyledSubMenu = styled.li<{
   theme: Theme;
 }>`
-  list-style: none;
   position: relative;
+  list-style: none;
 `;
 
 const SubMenuTitle = styled.div<{
+  open: boolean;
+  disabled: boolean;
+  mode: 'vertical' | 'horizontal';
   theme: Theme;
-  $mode: 'horizontal' | 'vertical';
-  $isOpen: boolean;
-  $disabled: boolean;
-  $collapsed: boolean;
 }>`
-  display: flex;
-  align-items: center;
-  padding: ${({ theme, $mode }) =>
-    $mode === 'horizontal'
-      ? `0 ${theme.spacing.md}`
-      : `${theme.spacing.sm} ${theme.spacing.md}`};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  transition: all 0.3s ease;
-  color: ${({ theme, $isOpen, $disabled }) =>
-    $disabled
-      ? theme.colors.text.disabled
-      : $isOpen
-      ? theme.colors.primary
-      : theme.colors.text.primary};
-  background-color: ${({ theme, $isOpen }) =>
-    $isOpen ? `${theme.colors.hover.text}` : 'transparent'};
-  height: ${({ $mode }) =>
-    $mode === 'horizontal' ? '100%' : 'auto'};
-
-  &:hover {
-    background-color: ${({ theme, $disabled }) =>
-      $disabled ? 'transparent' : theme.colors.hover.text};
-  }
-  
-  ${({ $collapsed }) =>
-    $collapsed &&
-    `
-    justify-content: center;
-    padding: 12px 0;
-    text-align: center;
-  `}
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-    ${({ $mode }) =>
-      $mode === 'horizontal' &&
-      `
-      height: auto;
-    `}
-  }
-`;
-
-const TitleContent = styled.div<{
-  theme: Theme;
-  $collapsed: boolean;
-}>`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.md}`};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  transition: all 0.3s;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  color: ${({ disabled, theme }) =>
+    disabled ? theme.colors.text.disabled : theme.colors.text.primary};
+  background-color: ${({ open, theme }) =>
+    open ? theme.colors.menu?.selectedBg : 'transparent'};
   
-  ${({ $collapsed }) =>
-    $collapsed &&
-    `
-    flex-direction: column;
-    gap: 4px;
-  `}
-`;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
-const TitleLabel = styled.div<{
-  theme: Theme;
-  $collapsed: boolean;
-}>`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  
-  ${({ $collapsed }) =>
-    $collapsed &&
-    `
-    flex-direction: column;
-    gap: 4px;
-  `}
+  &:hover {
+    background-color: ${({ open, disabled, theme }) =>
+      disabled
+        ? 'transparent'
+        : open
+        ? theme.colors.menu?.selectedHoverBg
+        : theme.colors.hover.text};
+  }
 `;
 
 const IconWrapper = styled.span<{
-  theme: Theme;
+  open: boolean;
+  mode: 'vertical' | 'horizontal';
 }>`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-`;
-
-const TextWrapper = styled.span<{
-  theme: Theme;
-  $collapsed: boolean;
-}>`
-  transition: opacity 0.3s;
-  opacity: ${({ $collapsed }) => ($collapsed ? '0' : '1')};
-  display: ${({ $collapsed }) => ($collapsed ? 'none' : 'block')};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: block;
-    opacity: 1;
-  }
-`;
-
-const ArrowIcon = styled.span<{
-  theme: Theme;
-  $isOpen: boolean;
-  $mode: 'horizontal' | 'vertical';
-  $collapsed: boolean;
-}>`
-  display: ${({ $collapsed }) => ($collapsed ? 'none' : 'flex')};
-  align-items: center;
-  justify-content: center;
+  margin-left: 8px;
+  font-size: 0.75rem;
+  transform: ${({ open, mode }) =>
+    mode === 'vertical'
+      ? open
+        ? 'rotate(90deg)'
+        : 'rotate(0deg)'
+      : open
+      ? 'rotate(180deg)'
+      : 'rotate(0deg)'};
   transition: transform 0.3s;
-  transform: rotate(${({ $isOpen, $mode }) =>
-    $mode === 'horizontal'
-      ? $isOpen
-        ? '180deg'
-        : '0deg'
-      : $isOpen
-      ? '90deg'
-      : '0deg'});
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: flex;
-  }
 `;
 
 const SubMenuContent = styled.ul<{
+  open: boolean;
+  mode: 'vertical' | 'horizontal';
   theme: Theme;
-  $mode: 'horizontal' | 'vertical';
-  $isOpen: boolean;
-  $collapsed: boolean;
 }>`
-  list-style: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
-  background-color: ${({ theme }) => theme.colors.background};
+  list-style: none;
+  transition: all 0.3s ease-in-out;
   
-  ${({ $mode, $isOpen, theme, $collapsed }) =>
-    $mode === 'horizontal'
-      ? `
-      position: absolute;
-      top: 100%;
-      left: 0;
-      min-width: 160px;
-      box-shadow: ${theme.shadows.md};
-      border-radius: ${theme.radii.sm};
-      z-index: 1000;
-      display: ${$isOpen ? 'block' : 'none'};
-      `
-      : `
-      padding-left: ${$collapsed ? '0' : theme.spacing.md};
-      max-height: ${$isOpen ? '1000px' : '0px'};
-      border-left: ${$collapsed ? 'none' : `1px solid ${theme.colors.border}`};
-      margin-left: ${$collapsed ? '0' : theme.spacing.md};
-      `}
+  // 垂直模式
+  ${({ mode, open }) =>
+    mode === 'vertical' &&
+    `
+    max-height: ${open ? '1000px' : '0'};
+    overflow: hidden;
+  `}
   
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    position: static;
-    box-shadow: none;
-    min-width: auto;
-    border-radius: 0;
-    max-height: ${({ $isOpen }) => ($isOpen ? '1000px' : '0px')};
-  }
+  // 水平模式
+  ${({ mode, open, theme }) =>
+    mode === 'horizontal' &&
+    `
+    position: absolute;
+    min-width: 160px;
+    left: 0;
+    top: 100%;
+    background-color: ${theme.colors.background};
+    box-shadow: ${theme.shadows.md};
+    border-radius: ${theme.radii.sm};
+    z-index: 1000;
+    visibility: ${open ? 'visible' : 'hidden'};
+    opacity: ${open ? 1 : 0};
+    transform: ${open ? 'translateY(0)' : 'translateY(-10px)'};
+  `}
 `;
 
-export const SubMenu: React.FC<SubMenuProps> = (props) => {
-  const { title, icon, disabled = false, children } = props;
-  const subMenuKey = props.key as string;
-  const theme = useTheme();
-  const { mode, openKeys, onOpenChange, collapsed } = useMenu();
-  
-  const isOpen = openKeys.includes(subMenuKey);
-  const [isHovering, setIsHovering] = useState(false);
-  
-  // 处理悬停展开（仅在水平模式和非移动设备下）
-  useEffect(() => {
-    if (mode === 'horizontal' && isHovering && !disabled) {
-      onOpenChange(subMenuKey);
-    }
-  }, [isHovering, mode]);
-  
-  const handleClick = () => {
-    if (disabled) return;
-    onOpenChange(subMenuKey);
-  };
-  
-  const handleMouseEnter = () => {
-    if (mode === 'horizontal' && !disabled) {
-      setIsHovering(true);
-    }
-  };
-  
-  const handleMouseLeave = () => {
-    if (mode === 'horizontal' && !disabled) {
-      setIsHovering(false);
-    }
-  };
-  
-  return (
-    <SubMenuWrapper
-      theme={theme}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <SubMenuTitle
+/**
+ * 子菜单组件
+ * @param props 组件属性
+ * @returns 子菜单组件
+ */
+export const SubMenu = React.forwardRef<HTMLLIElement, SubMenuProps>(
+  ({ id, disabled = false, title, style, className, children }, ref) => {
+    const theme = useTheme();
+    const { mode, openKeys, toggleOpen } = useMenuContext();
+    
+    // 判断当前子菜单是否展开
+    const isOpen = openKeys.includes(id);
+    
+    // 鼠标进入/离开事件的处理（仅用于水平模式）
+    const [isHovered, setIsHovered] = useState(false);
+    
+    // 在水平模式下使用hover控制子菜单展开
+    const open = mode === 'horizontal' ? isHovered : isOpen;
+    
+    const handleClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (disabled || mode === 'horizontal') return;
+      toggleOpen(id);
+    };
+    
+    // 向子组件传递菜单上下文
+    const subMenuContextValue = {
+      ...useMenuContext(),
+      isInSubMenu: true,
+    };
+    
+    return (
+      <StyledSubMenu
+        ref={ref}
         theme={theme}
-        $mode={mode}
-        $isOpen={isOpen}
-        $disabled={disabled}
-        $collapsed={collapsed}
-        onClick={handleClick}
+        style={style}
+        className={className}
+        role="none"
+        onMouseEnter={mode === 'horizontal' ? () => setIsHovered(true) : undefined}
+        onMouseLeave={mode === 'horizontal' ? () => setIsHovered(false) : undefined}
       >
-        <TitleContent theme={theme} $collapsed={collapsed}>
-          <TitleLabel theme={theme} $collapsed={collapsed}>
-            {icon && <IconWrapper theme={theme}>{icon}</IconWrapper>}
-            <TextWrapper theme={theme} $collapsed={collapsed}>
-              {title}
-            </TextWrapper>
-          </TitleLabel>
-          
-          <ArrowIcon
-            theme={theme}
-            $isOpen={isOpen}
-            $mode={mode}
-            $collapsed={collapsed}
-          >
-            {mode === 'horizontal' ? '▼' : '▶'}
-          </ArrowIcon>
-        </TitleContent>
-      </SubMenuTitle>
-      
-      <SubMenuContent
-        theme={theme}
-        $mode={mode}
-        $isOpen={isOpen || (mode === 'horizontal' && isHovering)}
-        $collapsed={collapsed}
-      >
-        {children}
-      </SubMenuContent>
-    </SubMenuWrapper>
-  );
-}; 
+        <SubMenuTitle
+          open={open}
+          disabled={disabled}
+          mode={mode}
+          theme={theme}
+          onClick={handleClick}
+          role="menuitem"
+          aria-disabled={disabled}
+          aria-expanded={open}
+        >
+          {title}
+          <IconWrapper open={open} mode={mode}>
+            {mode === 'vertical' ? '›' : '▾'}
+          </IconWrapper>
+        </SubMenuTitle>
+        <SubMenuContent open={open} mode={mode} theme={theme} role="menu">
+          <MenuContext.Provider value={subMenuContextValue}>
+            {children}
+          </MenuContext.Provider>
+        </SubMenuContent>
+      </StyledSubMenu>
+    );
+  }
+);
+
+SubMenu.displayName = 'SubMenu'; 

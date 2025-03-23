@@ -21,6 +21,10 @@ export interface ThemeColors {
   disabled: {
     background: string;
   };
+  menu?: {
+    selectedBg: string;
+    selectedHoverBg: string;
+  };
 }
 
 export interface ThemeShadows {
@@ -115,6 +119,10 @@ export const lightTheme: Theme = {
     disabled: {
       background: 'rgba(0, 0, 0, 0.12)',
     },
+    menu: {
+      selectedBg: 'rgba(25, 118, 210, 0.12)',
+      selectedHoverBg: 'rgba(25, 118, 210, 0.18)',
+    },
   },
   shadows: {
     sm: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
@@ -187,6 +195,10 @@ export const darkTheme: Theme = {
     },
     disabled: {
       background: 'rgba(255, 255, 255, 0.12)',
+    },
+    menu: {
+      selectedBg: 'rgba(25, 118, 210, 0.24)',
+      selectedHoverBg: 'rgba(25, 118, 210, 0.32)',
     },
   },
 }; 

@@ -25,7 +25,8 @@
 ```
 pixie-ui/
 ├── apps/                # 应用
-│   └── site/            # 文档站点 (dumi)
+│   └── site/ 
+│───────└── docs         # 组件相关文档 (dumi)
 ├── examples/            # 示例
 │   └── basic/           # 基础示例
 ├── packages/            # 包

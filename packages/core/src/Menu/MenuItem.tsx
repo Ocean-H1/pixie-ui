@@ -1,165 +1,116 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { Theme, useTheme } from '@pixie-ui/theme';
-import { useMenu } from './Menu';
+import { useMenuContext } from './MenuContext';
 
 export interface MenuItemProps {
   /**
-   * 菜单项的唯一标识
+   * 菜单项唯一标识符
    */
-  key: string;
+  id: string;
   /**
-   * 菜单项的图标
-   */
-  icon?: ReactNode;
-  /**
-   * 是否禁用
+   * 菜单项是否禁用
    * @default false
    */
   disabled?: boolean;
   /**
-   * 点击回调
+   * 自定义样式
    */
-  onClick?: () => void;
+  style?: React.CSSProperties;
   /**
-   * 子元素
+   * 自定义 className
    */
-  children: ReactNode;
+  className?: string;
+  /**
+   * 菜单项内容
+   */
+  children: React.ReactNode;
 }
 
-const MenuItemWrapper = styled.li<{
+const StyledMenuItem = styled.li<{
+  selected: boolean;
+  disabled: boolean;
+  isInSubMenu: boolean;
+  mode: 'vertical' | 'horizontal';
   theme: Theme;
-  $mode: 'horizontal' | 'vertical';
-  $isSelected: boolean;
-  $disabled: boolean;
-  $collapsed: boolean;
 }>`
+  position: relative;
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.md}`};
+  margin: ${({ isInSubMenu, theme }) => isInSubMenu ? `${theme.spacing.xs} 0` : '0'};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  transition: all 0.3s;
   display: flex;
   align-items: center;
-  padding: ${({ theme, $mode }) =>
-    $mode === 'horizontal'
-      ? `0 ${theme.spacing.md}`
-      : `${theme.spacing.sm} ${theme.spacing.md}`};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  transition: all 0.3s ease;
-  color: ${({ theme, $isSelected, $disabled }) =>
-    $disabled
-      ? theme.colors.text.disabled
-      : $isSelected
-      ? theme.colors.primary
-      : theme.colors.text.primary};
-  background-color: ${({ theme, $isSelected }) =>
-    $isSelected ? `${theme.colors.hover.text}` : 'transparent'};
-  border-right: ${({ theme, $isSelected, $mode }) =>
-    $isSelected && $mode === 'vertical'
-      ? `3px solid ${theme.colors.primary}`
-      : 'none'};
-  border-bottom: ${({ theme, $isSelected, $mode }) =>
-    $isSelected && $mode === 'horizontal'
-      ? `2px solid ${theme.colors.primary}`
-      : 'none'};
-  height: ${({ $mode }) => 
-    $mode === 'horizontal' ? '100%' : 'auto'};
-  
-  &:hover {
-    background-color: ${({ theme, $disabled }) =>
-      $disabled ? 'transparent' : theme.colors.hover.text};
-  }
-  
-  ${({ $collapsed }) =>
-    $collapsed &&
-    `
-    justify-content: center;
-    padding: 12px 0;
-    text-align: center;
-  `}
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-    ${({ $mode }) =>
-      $mode === 'horizontal' &&
-      `
-      height: auto;
-    `}
-  }
-`;
-
-const ItemContent = styled.div<{
-  theme: Theme;
-  $collapsed: boolean;
-}>`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  border-radius: ${({ theme }) => theme.radii.xs};
+  color: ${({ disabled, theme }) =>
+    disabled ? theme.colors.text.disabled : theme.colors.text.primary};
+  background-color: ${({ selected, theme }) =>
+    selected ? theme.colors.menu?.selectedBg : 'transparent'};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   
-  ${({ $collapsed }) =>
-    $collapsed &&
+  // 水平模式
+  ${({ mode }) =>
+    mode === 'horizontal' &&
     `
-    flex-direction: column;
-    gap: 4px;
+    display: inline-flex;
   `}
-`;
 
-const IconWrapper = styled.span<{
-  theme: Theme;
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-`;
+  // 垂直模式下，子菜单中的项
+  ${({ isInSubMenu, mode }) =>
+    isInSubMenu && mode === 'vertical' &&
+    `
+    padding-left: 24px;
+  `}
 
-const TextWrapper = styled.span<{
-  theme: Theme;
-  $collapsed: boolean;
-}>`
-  transition: opacity 0.3s;
-  opacity: ${({ $collapsed }) => ($collapsed ? '0' : '1')};
-  display: ${({ $collapsed }) => ($collapsed ? 'none' : 'block')};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: block;
-    opacity: 1;
+  &:hover {
+    background-color: ${({ selected, disabled, theme }) =>
+      disabled
+        ? 'transparent'
+        : selected
+        ? theme.colors.menu?.selectedHoverBg
+        : theme.colors.hover.text};
   }
 `;
 
-export const MenuItem: React.FC<MenuItemProps> = (props) => {
-  const { children, icon, disabled = false, onClick } = props;
-  const itemKey = props.key as string;
-  const theme = useTheme();
-  const { mode, selectedKeys, onSelect, collapsed } = useMenu();
-  
-  const isSelected = selectedKeys.includes(itemKey);
-  
-  const handleClick = () => {
-    if (disabled) return;
-    
-    if (onClick) {
-      onClick();
-    }
-    
-    onSelect(itemKey);
-  };
-  
-  return (
-    <MenuItemWrapper
-      theme={theme}
-      $mode={mode}
-      $isSelected={isSelected}
-      $disabled={disabled}
-      $collapsed={collapsed}
-      onClick={handleClick}
-    >
-      <ItemContent theme={theme} $collapsed={collapsed}>
-        {icon && <IconWrapper theme={theme}>{icon}</IconWrapper>}
-        <TextWrapper theme={theme} $collapsed={collapsed}>
-          {children}
-        </TextWrapper>
-      </ItemContent>
-    </MenuItemWrapper>
-  );
-}; 
+/**
+ * 菜单项组件
+ * @param props 组件属性
+ * @returns 菜单项组件
+ */
+export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
+  ({ id, disabled = false, style, className, children }, ref) => {
+    const theme = useTheme();
+    const { selectedKey, onSelect, mode, isInSubMenu = false } = useMenuContext();
+    const selected = selectedKey === id;
+
+    const handleClick = (e: React.MouseEvent) => {
+      if (disabled) {
+        e.preventDefault();
+        return;
+      }
+      onSelect(id);
+    };
+
+    return (
+      <StyledMenuItem
+        ref={ref}
+        selected={selected}
+        disabled={disabled}
+        isInSubMenu={isInSubMenu}
+        mode={mode}
+        theme={theme}
+        onClick={handleClick}
+        style={style}
+        className={className}
+        role="menuitem"
+        aria-disabled={disabled}
+        aria-selected={selected}
+      >
+        {children}
+      </StyledMenuItem>
+    );
+  }
+);
+
+MenuItem.displayName = 'MenuItem'; 
