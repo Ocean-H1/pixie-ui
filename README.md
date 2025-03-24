@@ -1,8 +1,7 @@
 <div align="center">
   <a name="readme-top"></a>
   <img height="180" src="./apps/site/public/logo.png">
-  <h1>Pixie Ui</h1>
-  轻量、开箱即用的 React UI组件库
+  <p>轻量、开箱即用的 React UI组件库</p>
 </div>
 
 ## 特性
