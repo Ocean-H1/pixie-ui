@@ -6,7 +6,7 @@ export default defineConfig({
   publicPath: '/pixie-ui/',
   themeConfig: {
     name: 'Pixie UI',
-    logo: '/logo.png',
+    logo: '/pixie-ui/logo.png',
     nav: [
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },

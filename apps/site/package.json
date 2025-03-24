@@ -7,6 +7,7 @@
     "dev": "dumi dev",
     "build": "dumi build",
     "prepare": "dumi setup",
+    "preview": "dumi preview",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "deploy": "pnpm run build && gh-pages -d dist"
   },
