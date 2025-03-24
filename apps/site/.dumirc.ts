@@ -51,6 +51,7 @@ export default defineConfig({
           title: '数据展示',
           children: [
             { title: 'Table 表格', link: '/components/table' },
+            { title: 'Card 卡片', link: '/components/card' },
           ],
         },
         {
