@@ -215,9 +215,7 @@ export const Rate: React.FC<RateProps> = ({
   onKeyDown,
 }) => {
   const theme = useTheme();
-  const [activeValue, setActiveValue] = useState<number>(0);
   const [hoverValue, setHoverValue] = useState<number>(0);
-  const [focused, setFocused] = useState<boolean>(false);
   const [value, setValue] = useState<number>(propValue !== undefined ? propValue : defaultValue);
   const rateRef = useRef<HTMLDivElement>(null);
 
@@ -262,12 +260,10 @@ export const Rate: React.FC<RateProps> = ({
   };
 
   const handleFocus = () => {
-    setFocused(true);
     onFocus?.();
   };
 
   const handleBlur = () => {
-    setFocused(false);
     onBlur?.();
   };
 
