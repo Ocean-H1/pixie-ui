@@ -18,5 +18,6 @@ export default defineConfig({
     '@pixie-ui/hooks',
     '@pixie-ui/theme',
     '@pixie-ui/utils',
+    '@iconify/react',
   ],
 }); 

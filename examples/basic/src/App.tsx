@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, Input } from '@pixie-ui/core';
+import { Button, Input, Icon } from '@pixie-ui/core';
 
 const Container = styled.div`
   max-width: 800px;
@@ -97,6 +97,91 @@ function App() {
           />
           <Button onClick={handleSubmit}>提交</Button>
         </FormGroup>
+      </Section>
+
+      <Section>
+        <SectionTitle>Icon 组件示例</SectionTitle>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Icon icon="mdi:home" />
+          <Icon icon="mdi:account" />
+          <Icon icon="mdi:bell" />
+          <Icon icon="mdi:settings" />
+          <Icon icon="mdi:heart" />
+        </div>
+      </Section>
+
+      <Section>
+        <SectionTitle>图标尺寸</SectionTitle>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Icon icon="mdi:home" size="small" />
+          <Icon icon="mdi:home" size="medium" />
+          <Icon icon="mdi:home" size="large" />
+          <Icon icon="mdi:home" size={36} />
+        </div>
+      </Section>
+
+      <Section>
+        <SectionTitle>图标颜色</SectionTitle>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Icon icon="mdi:home" color="red" />
+          <Icon icon="mdi:home" color="green" />
+          <Icon icon="mdi:home" color="blue" />
+          <Icon icon="mdi:home" color="#f50" />
+        </div>
+      </Section>
+
+      <Section>
+        <SectionTitle>图标旋转与翻转</SectionTitle>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Icon icon="mdi:arrow-right" />
+          <Icon icon="mdi:arrow-right" rotate={90} />
+          <Icon icon="mdi:arrow-right" rotate={180} />
+          <Icon icon="mdi:arrow-right" rotate={270} />
+          <Icon icon="mdi:arrow-right" horizontalFlip />
+          <Icon icon="mdi:arrow-right" verticalFlip />
+        </div>
+      </Section>
+
+      <Section>
+        <SectionTitle>内联使用</SectionTitle>
+        <p>这是一段文本，带有一个<Icon icon="mdi:home" inline />图标，图标与文本对齐。</p>
+        <p>这是另一段文本，带有一个<Icon icon="mdi:bell" color="red" inline />警告图标。</p>
+      </Section>
+
+      <Section>
+        <SectionTitle>与按钮组合使用</SectionTitle>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Button>
+            <Icon icon="mdi:home" inline style={{ marginRight: '8px' }} />
+            首页
+          </Button>
+          <Button variant="secondary">
+            <Icon icon="mdi:plus" inline style={{ marginRight: '8px' }} />
+            新增
+          </Button>
+          <Button variant="text">
+            <Icon icon="mdi:delete" inline style={{ marginRight: '8px' }} />
+            删除
+          </Button>
+        </div>
+      </Section>
+
+      <Section>
+        <SectionTitle>可点击图标</SectionTitle>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Icon 
+            icon="mdi:thumb-up" 
+            size="large" 
+            onClick={() => alert('点赞成功！')} 
+            style={{ cursor: 'pointer' }} 
+          />
+          <Icon 
+            icon="mdi:share" 
+            size="large" 
+            onClick={() => alert('分享成功！')} 
+            style={{ cursor: 'pointer' }} 
+          />
+        </div>
       </Section>
     </Container>
   );

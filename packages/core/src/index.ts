@@ -6,6 +6,7 @@ export * from './Form';
 export * from './Menu';
 export * from './Flex';
 export * from './Card';
+export * from './Icon';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 

@@ -32,6 +32,7 @@ export default defineConfig({
           title: '通用',
           children: [
             { title: 'Button 按钮', link: '/components/button' },
+            { title: 'Icon 图标', link: '/components/icon' },
           ],
         },
         {
