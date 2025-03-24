@@ -32,9 +32,24 @@ export default defineConfig({
           title: '通用',
           children: [
             { title: 'Button 按钮', link: '/components/button' },
+          ],
+        },
+        {
+          title: '数据录入',
+          children: [
             { title: 'Input 输入框', link: '/components/input' },
-            { title: 'Table 表格', link: '/components/table' },
             { title: 'Form 表单', link: '/components/form' },
+          ],
+        },
+        {
+          title: '数据展示',
+          children: [
+            { title: 'Table 表格', link: '/components/table' },
+          ],
+        },
+        {
+          title: '导航',
+          children: [
             { title: 'Menu 菜单', link: '/components/menu' },
           ],
         },
