@@ -35,6 +35,12 @@ export default defineConfig({
           ],
         },
         {
+          title: '布局',
+          children: [
+            { title: 'Flex 弹性布局', link: '/components/flex' },
+          ],
+        },
+        {
           title: '数据录入',
           children: [
             { title: 'Input 输入框', link: '/components/input' },
