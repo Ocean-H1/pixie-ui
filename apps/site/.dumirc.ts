@@ -46,6 +46,7 @@ export default defineConfig({
           children: [
             { title: 'Input 输入框', link: '/components/input' },
             { title: 'Form 表单', link: '/components/form' },
+            { title: 'Rate 评分', link: '/components/rate' },
           ],
         },
         {

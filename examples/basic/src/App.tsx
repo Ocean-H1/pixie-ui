@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, Input, Icon } from '@pixie-ui/core';
+import { Button, Input, Icon, Rate } from '@pixie-ui/core';
 
 const Container = styled.div`
   max-width: 800px;
@@ -42,6 +42,7 @@ function App() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
+  const [rateValue, setRateValue] = useState(3);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -181,6 +182,77 @@ function App() {
             onClick={() => alert('分享成功！')} 
             style={{ cursor: 'pointer' }} 
           />
+        </div>
+      </Section>
+
+      <Section>
+        <SectionTitle>Rate 评分组件</SectionTitle>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start' }}>
+          <div>
+            <h3>基本用法</h3>
+            <Rate defaultValue={2.5} />
+          </div>
+          
+          <div>
+            <h3>半星</h3>
+            <Rate allowHalf defaultValue={2.5} />
+          </div>
+          
+          <div>
+            <h3>文案展示</h3>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Rate 
+                tooltips={['很糟糕', '糟糕', '一般', '好', '很好']}
+                onChange={setRateValue}
+                value={rateValue}
+              />
+              {rateValue ? (
+                <span style={{ marginLeft: 10 }}>
+                  {['很糟糕', '糟糕', '一般', '好', '很好'][rateValue - 1]}
+                </span>
+              ) : ''}
+            </div>
+          </div>
+          
+          <div>
+            <h3>只读</h3>
+            <Rate disabled defaultValue={2} />
+          </div>
+          
+          <div>
+            <h3>清除</h3>
+            <div>
+              <div>允许清除：</div>
+              <Rate defaultValue={3} />
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <div>禁用清除：</div>
+              <Rate allowClear={false} defaultValue={3} />
+            </div>
+          </div>
+          
+          <div>
+            <h3>自定义字符</h3>
+            <div>
+              <Rate character={<Icon icon="mdi:heart" />} defaultValue={2} />
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <Rate character="A" allowHalf defaultValue={2.5} />
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <Rate character="好" defaultValue={3} />
+            </div>
+          </div>
+          
+          <div>
+            <h3>其他字符</h3>
+            <div>
+              <Rate character={<Icon icon="mdi:emoticon" />} defaultValue={2} />
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <Rate character={<Icon icon="mdi:thumb-up" />} allowHalf defaultValue={2.5} />
+            </div>
+          </div>
         </div>
       </Section>
     </Container>

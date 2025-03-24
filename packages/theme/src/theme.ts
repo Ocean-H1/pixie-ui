@@ -7,6 +7,7 @@ export interface ThemeColors {
   info: string;
   background: string;
   surface: string;
+  gold: string;
   text: {
     primary: string;
     secondary: string;
@@ -20,6 +21,7 @@ export interface ThemeColors {
   };
   disabled: {
     background: string;
+    foreground: string;
   };
   menu?: {
     selectedBg: string;
@@ -103,6 +105,7 @@ export const lightTheme: Theme = {
     warning: '#ed6c02',
     error: '#d32f2f',
     info: '#0288d1',
+    gold: '#fadb14',
     background: '#ffffff',
     surface: '#f5f5f5',
     text: {
@@ -118,6 +121,7 @@ export const lightTheme: Theme = {
     },
     disabled: {
       background: 'rgba(0, 0, 0, 0.12)',
+      foreground: 'rgba(0, 0, 0, 0.26)',
     },
     menu: {
       selectedBg: 'rgba(25, 118, 210, 0.12)',
@@ -182,6 +186,7 @@ export const darkTheme: Theme = {
   ...lightTheme,
   colors: {
     ...lightTheme.colors,
+    gold: '#fadb14',
     background: '#121212',
     surface: '#1e1e1e',
     text: {
@@ -195,6 +200,7 @@ export const darkTheme: Theme = {
     },
     disabled: {
       background: 'rgba(255, 255, 255, 0.12)',
+      foreground: 'rgba(255, 255, 255, 0.3)',
     },
     menu: {
       selectedBg: 'rgba(25, 118, 210, 0.24)',
