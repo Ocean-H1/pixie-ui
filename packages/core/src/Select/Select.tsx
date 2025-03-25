@@ -378,20 +378,17 @@ const SelectArrow = styled.span<{
 
 const SelectClear = styled.span<{
   theme: Theme;
+  $visible?: boolean;
 }>`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: ${({ theme }) => theme.spacing.xs};
   font-size: 12px;
-  visibility: hidden;
-  opacity: 0;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   transition: opacity 0.3s;
-  
-  ${SelectWrapper}:hover & {
-    visibility: visible;
-    opacity: 1;
-  }
   
   &:hover {
     color: ${({ theme }) => theme.colors.text.primary};
@@ -495,6 +492,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [focused, setFocused] = useState(false);
   const [internalSearchValue, setInternalSearchValue] = useState('');
+  const [isHovering, setIsHovering] = useState(false);
   
   // 处理受控与非受控
   const mergedOpen = open !== undefined ? open : isOpen;
@@ -651,12 +649,14 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
   // 处理清除
   const handleClear = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     
     const newValue = mode === 'multiple' || mode === 'tags' ? [] as (string | number)[] : '';
     setSelectedValue(newValue);
     onChange?.(newValue as SelectValue, [] as SelectOption[]);
+    setInternalSearchValue('');  // 清空搜索框
     onClear?.();
-  }, [mode, onChange, onClear]);
+  }, [mode, onChange, onClear, setInternalSearchValue]);
   
   // 处理选项选择
   const handleOptionSelect = useCallback((optionValue: string | number, option: SelectOption) => {
@@ -996,13 +996,19 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
         $focused={focused}
         $mode={mode}
         onClick={handleSelectClick}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       >
         {prefix && <SelectPrefix theme={theme}>{prefix}</SelectPrefix>}
         
         {renderSelectedValue()}
         
         {hasValue && allowClear && (
-          <SelectClear theme={theme} onClick={handleClear}>
+          <SelectClear 
+            theme={theme} 
+            onClick={handleClear}
+            $visible={isHovering || focused}
+          >
             {typeof allowClear === 'object' && allowClear.clearIcon ? 
               allowClear.clearIcon : 
               <Icon icon="mdi:close-circle" size="small" />}
