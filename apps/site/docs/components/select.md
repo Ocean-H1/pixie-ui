@@ -121,23 +121,47 @@ export default () => (
 支持搜索选项的选择器。
 
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Select } from '@pixie-ui/core';
 
-export default () => (
-  <Select
-    showSearch
-    options={[
-      { value: 'apple', label: '苹果' },
-      { value: 'orange', label: '橙子' },
-      { value: 'banana', label: '香蕉' },
-      { value: 'grape', label: '葡萄' },
-      { value: 'watermelon', label: '西瓜' },
-      { value: 'peach', label: '桃子' }
-    ]}
-    placeholder="可搜索"
-  />
-);
+export default () => {
+  const [value, setValue] = useState('');
+  
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <p>单选模式：</p>
+      <Select
+        showSearch
+        value={value}
+        onChange={(val) => setValue(val)}
+        options={[
+          { value: 'apple', label: '苹果' },
+          { value: 'orange', label: '橙子' },
+          { value: 'banana', label: '香蕉' },
+          { value: 'grape', label: '葡萄' },
+          { value: 'watermelon', label: '西瓜' },
+          { value: 'peach', label: '桃子' }
+        ]}
+        placeholder="可搜索"
+      />
+      
+      <p>多选模式：</p>
+      <Select
+        mode="multiple"
+        showSearch
+        options={[
+          { value: 'apple', label: '苹果' },
+          { value: 'orange', label: '橙子' },
+          { value: 'banana', label: '香蕉' },
+          { value: 'grape', label: '葡萄' },
+          { value: 'watermelon', label: '西瓜' },
+          { value: 'peach', label: '桃子' }
+        ]}
+        placeholder="多选且可搜索"
+      />
+    </div>
+  );
+};
 ```
 
 ### 自定义搜索逻辑
@@ -173,17 +197,16 @@ export default () => (
 从服务端搜索数据的选择器。
 
 ```tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Select } from '@pixie-ui/core';
 
 export default () => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
   
-  // 模拟远程搜索
-  useEffect(() => {
-    if (!searchValue) {
+  // 处理搜索
+  const handleSearch = (value) => {
+    if (!value) {
       setOptions([]);
       return;
     }
@@ -191,17 +214,15 @@ export default () => {
     setLoading(true);
     
     // 模拟API请求
-    const timeout = setTimeout(() => {
+    setTimeout(() => {
       setLoading(false);
       setOptions([
-        { value: `${searchValue}_1`, label: `${searchValue} 1` },
-        { value: `${searchValue}_2`, label: `${searchValue} 2` },
-        { value: `${searchValue}_3`, label: `${searchValue} 3` },
+        { value: `${value}_1`, label: `${value} 1` },
+        { value: `${value}_2`, label: `${value} 2` },
+        { value: `${value}_3`, label: `${value} 3` },
       ]);
     }, 500);
-    
-    return () => clearTimeout(timeout);
-  }, [searchValue]);
+  };
   
   return (
     <Select
@@ -209,8 +230,9 @@ export default () => {
       loading={loading}
       options={options}
       filterOption={false}
-      onSearch={setSearchValue}
+      onSearch={handleSearch}
       placeholder="输入关键词搜索"
+      notFoundContent={loading ? '加载中...' : '无匹配结果'}
     />
   );
 };
@@ -272,11 +294,12 @@ export default () => (
 ```tsx
 import React from 'react';
 import { Select } from '@pixie-ui/core';
+import { Icon } from '@pixie-ui/core';
 
 export default () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
     <Select
-      prefix={<span style={{ color: 'blue' }}>●</span>}
+      prefix={<Icon icon="mdi:fruit-apple" />}
       options={[
         { value: 'apple', label: '苹果' },
         { value: 'orange', label: '橙子' },
@@ -286,7 +309,7 @@ export default () => (
     />
     
     <Select
-      suffixIcon={<span style={{ color: 'red' }}>▼</span>}
+      suffixIcon={<Icon icon="mdi:chevron-down" color="red" />}
       options={[
         { value: 'apple', label: '苹果' },
         { value: 'orange', label: '橙子' },
@@ -418,7 +441,7 @@ export default () => (
 | filterOption | 是否根据输入项进行筛选 | `boolean \| ((inputValue: string, option: SelectOption) => boolean)` | `true` |
 | filterSort | 搜索时对筛选结果项的排序函数 | `(optionA: SelectOption, optionB: SelectOption, info: { searchValue: string }) => number` | - |
 | optionFilterProp | 搜索时过滤对应的 option 属性 | `string` | `'value'` |
-| optionLabelProp | 回填到选择框的 Option 的属性值 | `string` | `'children'` |
+| optionLabelProp | 回填到选择框的 Option 的属性值 | `string` | `'label'` |
 | optionRender | 自定义渲染下拉选项 | `(option: SelectOption, info: { index: number }) => React.ReactNode` | - |
 | listHeight | 设置弹窗滚动高度 | `number` | `256` |
 | getPopupContainer | 菜单渲染父节点 | `(triggerNode: HTMLElement) => HTMLElement` | `() => document.body` |
@@ -434,5 +457,5 @@ export default () => (
 | onDropdownVisibleChange | 展开下拉菜单的回调 | `(open: boolean) => void` | - |
 | onPopupScroll | 下拉列表滚动时的回调 | `(e: React.UIEvent<HTMLDivElement>) => void` | - |
 | labelRender | 自定义当前选中的 label 内容渲染 | `(props: LabeledValue) => ReactNode` | - |
-| tagRender | 自定义 tag 内容渲染 | `(props: { label: ReactNode; value: string \| number; closable: boolean; onClose: () => void }) => ReactNode` | - |
+| tagRender | 自定义 tag 内容渲染 | `(props: { label: ReactNode; value: string \| number; closable: boolean; onClose: (e: React.MouseEvent) => void }) => ReactNode` | - |
 | tokenSeparators | 自动分词的分隔符 | `string[]` | - | 

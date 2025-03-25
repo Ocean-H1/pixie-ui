@@ -167,7 +167,7 @@ export interface SelectProps {
   filterSort?: (optionA: SelectOption, optionB: SelectOption, info: { searchValue: string }) => number;
   /**
    * 搜索时过滤对应的 option 属性
-   * @default 'value'
+   * @default 'label'
    */
   optionFilterProp?: string;
   /**
@@ -423,6 +423,8 @@ const SelectInput = styled.input<{
   width: ${({ $width }) => $width};
   min-width: 30px;
   flex: 1;
+  color: inherit;
+  font-size: inherit;
 `;
 
 // 实现完整的 Select 组件
@@ -459,7 +461,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
   notFoundContent = '无匹配结果',
   filterOption = true,
   filterSort,
-  optionFilterProp = 'value',
+  optionFilterProp = 'label',
   optionLabelProp = 'children',
   optionRender,
   listHeight = 256,
@@ -568,11 +570,26 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
     // 默认过滤逻辑
     if (filterOption) {
       return optionsData.filter(option => {
+        // 查看是否在指定的属性中包含搜索值
         const optionValue = option[optionFilterProp as keyof SelectOption];
+        let matchProp = false;
+        
         if (typeof optionValue === 'string' || typeof optionValue === 'number') {
-          return String(optionValue).toLowerCase().includes(searchValue.toLowerCase());
+          matchProp = String(optionValue).toLowerCase().includes(searchValue.toLowerCase());
         }
-        return false;
+        
+        // 如果在指定属性中找不到，尝试在标签中查找
+        if (!matchProp && optionFilterProp !== 'label' && option.label) {
+          const labelText = typeof option.label === 'string' || typeof option.label === 'number' 
+            ? String(option.label).toLowerCase() 
+            : '';
+          
+          if (labelText) {
+            matchProp = labelText.includes(searchValue.toLowerCase());
+          }
+        }
+        
+        return matchProp;
       });
     }
     
@@ -607,15 +624,27 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
     };
   }, []);
   
+  // 添加阻止输入框冒泡的处理函数
+  const stopPropagation = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+  }, []);
+  
   // 处理选择器点击
   const handleSelectClick = useCallback(() => {
     if (disabled) return;
     
-    setIsOpen(!mergedOpen);
-    onDropdownVisibleChange?.(!mergedOpen);
+    const shouldOpen = !mergedOpen;
+    setIsOpen(shouldOpen);
+    onDropdownVisibleChange?.(shouldOpen);
     
-    if (!mergedOpen && inputRef.current) {
-      inputRef.current.focus();
+    if (shouldOpen) {
+      setFocused(true);
+      // 使用 requestAnimationFrame 确保在下一帧获取焦点
+      requestAnimationFrame(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      });
     }
   }, [disabled, mergedOpen, onDropdownVisibleChange]);
   
@@ -830,6 +859,24 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
   const renderSelectedValue = () => {
     // 空值显示占位符
     if (selectedValue === undefined || selectedValue === '' || (Array.isArray(selectedValue) && selectedValue.length === 0)) {
+      if (showSearch && focused) {
+        return (
+          <SelectInput
+            ref={inputRef}
+            theme={theme}
+            $width="100%"
+            type="text"
+            value={searchValue}
+            onChange={handleSearchInputChange}
+            onKeyDown={handleInputKeyDown}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            disabled={disabled}
+            placeholder={placeholder}
+            onClick={stopPropagation}
+          />
+        );
+      }
       return <SelectPlaceholder theme={theme}>{placeholder}</SelectPlaceholder>;
     }
     
@@ -885,7 +932,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
             <SelectInput
               ref={inputRef}
               theme={theme}
-              $width={searchValue ? `${searchValue.length * 8}px` : '4px'}
+              $width={searchValue ? `${Math.max(searchValue.length * 8, 30)}px` : '30px'}
               type="text"
               value={searchValue}
               onChange={handleSearchInputChange}
@@ -893,6 +940,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
               onFocus={handleFocus}
               onBlur={handleBlur}
               disabled={disabled}
+              onClick={stopPropagation}
             />
           )}
         </SelectTagsContainer>
@@ -901,6 +949,27 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({
     
     // 单选模式
     const option = getOptionFromValue(selectedValue as string | number);
+    
+    // 添加单选模式下的搜索支持
+    if (showSearch && focused) {
+      return (
+        <SelectInput
+          ref={inputRef}
+          theme={theme}
+          $width="100%"
+          type="text"
+          value={searchValue}
+          onChange={handleSearchInputChange}
+          onKeyDown={handleInputKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          disabled={disabled}
+          placeholder={typeof option?.label === 'string' ? option.label : String(selectedValue)}
+          onClick={stopPropagation}
+        />
+      );
+    }
+    
     return <SelectValue theme={theme}>{option?.label || selectedValue}</SelectValue>;
   };
   
