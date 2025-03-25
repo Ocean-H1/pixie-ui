@@ -21,6 +21,7 @@ export const baseConfig = defineConfig({
   minify: true,
   esbuildOptions(options) {
     options.jsx = 'automatic';
+    options.jsxImportSource = '@emotion/react';
     return options;
   },
 });
