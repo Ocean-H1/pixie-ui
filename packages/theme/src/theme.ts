@@ -87,6 +87,14 @@ export interface ThemeRadii {
   round: string;
 }
 
+export interface ThemeControlSizes {
+  height: {
+    small: string;
+    medium: string;
+    large: string;
+  };
+}
+
 export interface Theme {
   colors: ThemeColors;
   shadows: ThemeShadows;
@@ -95,6 +103,7 @@ export interface Theme {
   fontSizes: ThemeFontSizes;
   typography: ThemeTypography;
   radii: ThemeRadii;
+  controlSizes: ThemeControlSizes;
 }
 
 export const lightTheme: Theme = {
@@ -180,6 +189,13 @@ export const lightTheme: Theme = {
     xl: '24px',
     round: '50%',
   },
+  controlSizes: {
+    height: {
+      small: '24px',
+      medium: '32px',
+      large: '40px'
+    }
+  }
 };
 
 export const darkTheme: Theme = {
@@ -207,4 +223,7 @@ export const darkTheme: Theme = {
       selectedHoverBg: 'rgba(25, 118, 210, 0.32)',
     },
   },
+  controlSizes: {
+    ...lightTheme.controlSizes
+  }
 }; 

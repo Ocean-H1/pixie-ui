@@ -8,6 +8,7 @@ export * from './Flex';
 export * from './Card';
 export * from './Icon';
 export * from './Rate';
+export * from './Select';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 
