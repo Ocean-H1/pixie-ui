@@ -63,6 +63,12 @@ export default defineConfig({
             { title: 'Menu 菜单', link: '/components/menu' },
           ],
         },
+        {
+          title: '反馈',
+          children: [
+            { title: 'Modal 模态框', link: '/components/modal' },
+          ],
+        },
       ],
     },
     socialLinks: {

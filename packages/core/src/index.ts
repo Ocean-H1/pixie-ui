@@ -9,6 +9,7 @@ export * from './Card';
 export * from './Icon';
 export * from './Rate';
 export * from './Select';
+export * from './Modal';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 

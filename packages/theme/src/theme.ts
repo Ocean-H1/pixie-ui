@@ -5,7 +5,10 @@ export interface ThemeColors {
   warning: string;
   error: string;
   info: string;
-  background: string;
+  background: {
+    paper: string;
+    default: string;
+  };
   surface: string;
   gold: string;
   text: {
@@ -14,6 +17,11 @@ export interface ThemeColors {
     disabled: string;
   };
   border: string;
+  divider: string;
+  mask: string;
+  skeleton: {
+    background: string;
+  };
   hover: {
     primary: string;
     secondary: string;
@@ -115,7 +123,10 @@ export const lightTheme: Theme = {
     error: '#d32f2f',
     info: '#0288d1',
     gold: '#fadb14',
-    background: '#ffffff',
+    background: {
+      default: '#ffffff',
+      paper: '#ffffff',
+    },
     surface: '#f5f5f5',
     text: {
       primary: 'rgba(0, 0, 0, 0.87)',
@@ -123,6 +134,11 @@ export const lightTheme: Theme = {
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
     border: 'rgba(0, 0, 0, 0.12)',
+    divider: 'rgba(0, 0, 0, 0.12)',
+    mask: 'rgba(0, 0, 0, 0.45)',
+    skeleton: {
+      background: 'rgba(0, 0, 0, 0.08)',
+    },
     hover: {
       primary: '#1565c0',
       secondary: '#7b1fa2',
@@ -203,7 +219,10 @@ export const darkTheme: Theme = {
   colors: {
     ...lightTheme.colors,
     gold: '#fadb14',
-    background: '#121212',
+    background: {
+      default: '#121212',
+      paper: '#1e1e1e',
+    },
     surface: '#1e1e1e',
     text: {
       primary: 'rgba(255, 255, 255, 0.87)',
@@ -211,6 +230,11 @@ export const darkTheme: Theme = {
       disabled: 'rgba(255, 255, 255, 0.38)',
     },
     border: 'rgba(255, 255, 255, 0.12)',
+    divider: 'rgba(255, 255, 255, 0.12)',
+    mask: 'rgba(0, 0, 0, 0.65)',
+    skeleton: {
+      background: 'rgba(255, 255, 255, 0.08)',
+    },
     hover: {
       ...lightTheme.colors.hover,
     },
