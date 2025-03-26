@@ -77,7 +77,7 @@ const DropdownWrapper = styled.div<{
   z-index: 1050;
   box-sizing: border-box;
   padding: ${({ theme }) => theme.spacing.xs} 0;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background.default};
   border-radius: ${({ theme }) => theme.radii.sm};
   box-shadow: ${({ theme }) => theme.shadows.md};
   display: ${({ $visible }) => ($visible ? 'block' : 'none')};

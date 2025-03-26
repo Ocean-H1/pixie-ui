@@ -50,7 +50,7 @@ const StyledMenu = styled.ul<{
   font-family: inherit;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   line-height: ${({ theme }) => theme.typography.lineHeight.normal};
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background.default};
   
   // 水平布局
   ${({ mode }) =>

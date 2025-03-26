@@ -189,7 +189,7 @@ const TableHeaderCell = styled.th<{
 const TableBody = styled.tbody<{
   theme: Theme;
 }>`
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background.default};
 `;
 
 const TableRow = styled.tr<{

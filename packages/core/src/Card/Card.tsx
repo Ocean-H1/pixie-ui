@@ -69,11 +69,11 @@ export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
 const getBackgroundColor = (variant: CardVariant, theme: Theme) => {
   switch (variant) {
     case 'outlined':
-      return theme.colors.background;
+      return theme.colors.background.default;
     case 'borderless':
       return 'transparent';
     default:
-      return theme.colors.background;
+      return theme.colors.background.default;
   }
 };
 

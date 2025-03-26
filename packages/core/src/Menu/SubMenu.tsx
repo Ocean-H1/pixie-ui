@@ -114,7 +114,7 @@ const SubMenuContent = styled.ul<{
     min-width: 160px;
     left: 0;
     top: 100%;
-    background-color: ${theme.colors.background};
+    background-color: ${theme.colors.background.default};
     box-shadow: ${theme.shadows.md};
     border-radius: ${theme.radii.sm};
     z-index: 1000;

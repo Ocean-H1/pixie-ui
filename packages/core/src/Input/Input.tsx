@@ -87,7 +87,7 @@ const StyledInput = styled.input<{
   padding: ${({ $size, theme }) => getPadding($size, theme)};
   font-size: ${({ $size, theme }) => getFontSize($size, theme)};
   font-family: inherit;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background.default};
   color: ${({ theme }) => theme.colors.text.primary};
   border: 1px solid ${({ $error, theme }) => ($error ? theme.colors.error : theme.colors.border)};
   border-radius: ${({ theme }) => theme.radii.sm};

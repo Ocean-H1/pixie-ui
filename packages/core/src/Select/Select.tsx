@@ -324,7 +324,7 @@ const SelectWrapper = styled.div<{
   min-height: ${({ $size, theme }) => getHeight($size, theme)};
   padding: ${({ $size, theme }) => getPadding($size, theme)};
   font-size: ${({ $size, theme }) => getFontSize($size, theme)};
-  background-color: ${({ theme, $disabled }) => ($disabled ? theme.colors.disabled.background : theme.colors.background)};
+  background-color: ${({ theme, $disabled }) => ($disabled ? theme.colors.disabled.background : theme.colors.background.default)};
   color: ${({ theme, $disabled }) => ($disabled ? theme.colors.text.disabled : theme.colors.text.primary)};
   border: 1px solid ${({ theme, $status, $focused }) => {
     if ($status === 'error') return theme.colors.error;
