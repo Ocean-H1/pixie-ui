@@ -45,7 +45,7 @@
   padding: ${({$size:e,theme:t})=>Xe(e,t)};
   font-size: ${({$size:e,theme:t})=>We(e,t)};
   font-family: inherit;
-  background-color: ${({theme:e})=>e.colors.background};
+  background-color: ${({theme:e})=>e.colors.background.default};
   color: ${({theme:e})=>e.colors.text.primary};
   border: 1px solid ${({$error:e,theme:t})=>e?t.colors.error:t.colors.border};
   border-radius: ${({theme:e})=>e.radii.sm};
@@ -124,7 +124,7 @@
   
   ${({$width:e})=>e&&`width: ${e};`}
 `,Ft=l.Z.tbody`
-  background-color: ${({theme:e})=>e.colors.background};
+  background-color: ${({theme:e})=>e.colors.background.default};
 `,Mt=l.Z.tr`
   height: ${({theme:e,$size:t})=>T(t,e)};
   transition: background-color 0.3s;
@@ -204,7 +204,7 @@
   font-family: inherit;
   font-size: ${({theme:e})=>e.fontSizes.sm};
   line-height: ${({theme:e})=>e.typography.lineHeight.normal};
-  background-color: ${({theme:e})=>e.colors.background};
+  background-color: ${({theme:e})=>e.colors.background.default};
   
   // 水平布局
   ${({mode:e})=>e==="horizontal"&&`
@@ -290,7 +290,7 @@
     min-width: 160px;
     left: 0;
     top: 100%;
-    background-color: ${o.colors.background};
+    background-color: ${o.colors.background.default};
     box-shadow: ${o.shadows.md};
     border-radius: ${o.radii.sm};
     z-index: 1000;
@@ -306,7 +306,7 @@
   flex-wrap: ${({$wrap:e})=>qt(e)};
   gap: ${({$gap:e,theme:t})=>e?Lt(e,t):"0"};
   ${({$flex:e})=>e!==void 0&&`flex: ${e};`}
-`,er=u=>{var b=u,{vertical:e=!1,justify:t="normal",align:o="normal",wrap:i=!1,gap:h,flex:c,component:$="div",style:p,children:s}=b,m=we(b,["vertical","justify","align","wrap","gap","flex","component","style","children"]);let C=(0,j.Fg)();return(0,r.tZ)(Ut,W(F({as:$,$vertical:e,$justify:t,$align:o,$wrap:i,$gap:h,$flex:c,theme:C,style:p},m),{children:s}))},tr=(e,t)=>{switch(e){case"outlined":return t.colors.background;case"borderless":return"transparent";default:return t.colors.background}},rr=(e,t)=>{switch(e){case"outlined":return`1px solid ${t.colors.border}`;case"borderless":return"none";default:return`1px solid ${t.colors.border}`}},Ae=(e,t)=>{switch(e){case"small":return t.spacing.md;case"default":return t.spacing.lg;default:return t.spacing.lg}},or=(e,t)=>e?t.shadows.md:"none",lr=(e,t)=>e?t.shadows.lg:"none",ir=l.Z.div`
+`,er=u=>{var b=u,{vertical:e=!1,justify:t="normal",align:o="normal",wrap:i=!1,gap:h,flex:c,component:$="div",style:p,children:s}=b,m=we(b,["vertical","justify","align","wrap","gap","flex","component","style","children"]);let C=(0,j.Fg)();return(0,r.tZ)(Ut,W(F({as:$,$vertical:e,$justify:t,$align:o,$wrap:i,$gap:h,$flex:c,theme:C,style:p},m),{children:s}))},tr=(e,t)=>{switch(e){case"outlined":return t.colors.background.default;case"borderless":return"transparent";default:return t.colors.background.default}},rr=(e,t)=>{switch(e){case"outlined":return`1px solid ${t.colors.border}`;case"borderless":return"none";default:return`1px solid ${t.colors.border}`}},Ae=(e,t)=>{switch(e){case"small":return t.spacing.md;case"default":return t.spacing.lg;default:return t.spacing.lg}},or=(e,t)=>e?t.shadows.md:"none",lr=(e,t)=>e?t.shadows.lg:"none",ir=l.Z.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -528,7 +528,7 @@
   z-index: 1050;
   box-sizing: border-box;
   padding: ${({theme:e})=>e.spacing.xs} 0;
-  background-color: ${({theme:e})=>e.colors.background};
+  background-color: ${({theme:e})=>e.colors.background.default};
   border-radius: ${({theme:e})=>e.radii.sm};
   box-shadow: ${({theme:e})=>e.shadows.md};
   display: ${({$visible:e})=>e?"block":"none"};
@@ -605,7 +605,7 @@
   min-height: ${({$size:e,theme:t})=>Fr(e,t)};
   padding: ${({$size:e,theme:t})=>Mr(e,t)};
   font-size: ${({$size:e,theme:t})=>Dr(e,t)};
-  background-color: ${({theme:e,$disabled:t})=>t?e.colors.disabled.background:e.colors.background};
+  background-color: ${({theme:e,$disabled:t})=>t?e.colors.disabled.background:e.colors.background.default};
   color: ${({theme:e,$disabled:t})=>t?e.colors.text.disabled:e.colors.text.primary};
   border: 1px solid ${({theme:e,$status:t,$focused:o})=>t==="error"?e.colors.error:t==="warning"?e.colors.warning:o?e.colors.primary:e.colors.border};
   border-radius: ${({theme:e})=>e.radii.sm};
