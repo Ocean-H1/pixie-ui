@@ -40,6 +40,7 @@ export default defineConfig({
           title: '布局',
           children: [
             { title: 'Flex 弹性布局', link: '/components/flex' },
+            { title: 'Space 间距', link: '/components/space' },
           ],
         },
         {
@@ -67,7 +68,7 @@ export default defineConfig({
         {
           title: '反馈',
           children: [
-            { title: 'Modal 模态框', link: '/components/modal' },
+            { title: 'Modal 弹窗', link: '/components/modal' },
           ],
         },
       ],

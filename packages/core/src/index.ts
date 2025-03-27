@@ -10,6 +10,7 @@ export * from './Icon';
 export * from './Rate';
 export * from './Select';
 export * from './Modal';
+export * from './Space';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 
