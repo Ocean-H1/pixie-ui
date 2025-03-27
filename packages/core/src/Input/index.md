@@ -13,60 +13,25 @@
 
 基本使用方式。
 
-```tsx
-import React from 'react';
-import { Input } from '@pixie-ui/core';
-
-export default () => (
-  <Input placeholder="请输入内容" />
-);
-```
+<code src="./demo/basic.tsx"></code>
 
 ### 不同尺寸
 
 输入框有三种尺寸：大、中、小。
 
-```tsx
-import React from 'react';
-import { Input } from '@pixie-ui/core';
-
-export default () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-    <Input size="small" placeholder="小尺寸" />
-    <Input size="medium" placeholder="中尺寸" />
-    <Input size="large" placeholder="大尺寸" />
-  </div>
-);
-```
+<code src="./demo/size.tsx"></code>
 
 ### 错误状态
 
 输入框的错误状态。
 
-```tsx
-import React from 'react';
-import { Input } from '@pixie-ui/core';
-
-export default () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-    <Input error placeholder="错误状态" />
-    <Input error errorMessage="请输入正确的内容" placeholder="错误状态带提示" />
-  </div>
-);
-```
+<code src="./demo/error.tsx"></code>
 
 ### 禁用状态
 
 输入框的禁用状态。
 
-```tsx
-import React from 'react';
-import { Input } from '@pixie-ui/core';
-
-export default () => (
-  <Input disabled placeholder="禁用状态" />
-);
-```
+<code src="./demo/disabled.tsx"></code>
 
 ## API
 
@@ -79,4 +44,4 @@ export default () => (
 | placeholder | 输入框占位文本 | `string` | - |
 | value | 输入框内容 | `string` | - |
 | onChange | 输入框内容变化时的回调 | `(event: React.ChangeEvent<HTMLInputElement>) => void` | - |
-``` 
+</rewritten_file> 

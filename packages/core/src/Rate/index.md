@@ -13,109 +13,43 @@
 
 最简单的用法。
 
-```tsx
-import React from 'react';
-import { Rate } from '@pixie-ui/core';
-
-export default () => <Rate defaultValue={2.5} />;
-```
+<code src="./demo/basic.tsx"></code>
 
 ### 半星
 
 支持选择半星。
 
-```tsx
-import React from 'react';
-import { Rate } from '@pixie-ui/core';
-
-export default () => <Rate allowHalf defaultValue={2.5} />;
-```
+<code src="./demo/half.tsx"></code>
 
 ### 文案展现
 
 给评分组件加上文案展示。
 
-```tsx
-import React, { useState } from 'react';
-import { Rate } from '@pixie-ui/core';
-
-const desc = ['很糟糕', '糟糕', '一般', '好', '很好'];
-
-export default () => {
-  const [value, setValue] = useState(3);
-  
-  return (
-    <div>
-      <Rate tooltips={desc} onChange={setValue} value={value} />
-      {value ? <span style={{ marginLeft: 10 }}>{desc[value - 1]}</span> : ''}
-    </div>
-  );
-};
-```
+<code src="./demo/text.tsx"></code>
 
 ### 只读
 
 只读，无法进行交互。
 
-```tsx
-import React from 'react';
-import { Rate } from '@pixie-ui/core';
-
-export default () => <Rate disabled defaultValue={2} />;
-```
+<code src="./demo/disabled.tsx"></code>
 
 ### 清除
 
 支持允许或者禁用清除。
 
-```tsx
-import React from 'react';
-import { Rate } from '@pixie-ui/core';
-
-export default () => (
-  <div>
-    <Rate defaultValue={3} />
-    <br />
-    <Rate allowClear={false} defaultValue={3} />
-  </div>
-);
-```
+<code src="./demo/clear.tsx"></code>
 
 ### 自定义字符
 
 可以使用自定义字符。
 
-```tsx
-import React from 'react';
-import { Rate, Icon } from '@pixie-ui/core';
-
-export default () => (
-  <div>
-    <Rate character={<Icon icon="mdi:heart" />} defaultValue={2} />
-    <br />
-    <Rate character="A" allowHalf defaultValue={2.5} />
-    <br />
-    <Rate character="好" defaultValue={3} />
-  </div>
-);
-```
+<code src="./demo/character.tsx"></code>
 
 ### 其他字符
 
 可以将星星替换为其他字符，比如表情符号。
 
-```tsx
-import React from 'react';
-import { Rate, Icon } from '@pixie-ui/core';
-
-export default () => (
-  <div>
-    <Rate character={<Icon icon="mdi:emoticon" />} defaultValue={2} />
-    <br />
-    <Rate character={<Icon icon="mdi:thumb-up" />} allowHalf defaultValue={2.5} />
-  </div>
-);
-```
+<code src="./demo/other-character.tsx"></code>
 
 ## API
 

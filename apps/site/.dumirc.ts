@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+import path from 'path';
 
 export default defineConfig({
   outputPath: 'dist',
@@ -81,6 +82,9 @@ export default defineConfig({
     ],
   },
   alias: {
-    '@pixie-ui/*': '../../packages/*/src',
-  },
+    '@pixie-ui/core': path.resolve(__dirname, '../../packages/core/src'),
+    '@pixie-ui/hooks': path.resolve(__dirname, '../../packages/hooks/src'),
+    '@pixie-ui/theme': path.resolve(__dirname, '../../packages/theme/src'),
+    '@pixie-ui/utils': path.resolve(__dirname, '../../packages/utils/src'),
+  }
 }); 
