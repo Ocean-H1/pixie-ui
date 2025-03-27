@@ -11,6 +11,8 @@ export * from './Rate';
 export * from './Select';
 export * from './Modal';
 export * from './Space';
+export { Drawer } from './Drawer';
+export type { DrawerProps, DrawerPlacement, DrawerSize } from './Drawer';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 

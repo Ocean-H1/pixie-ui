@@ -69,6 +69,7 @@ export default defineConfig({
           title: '反馈',
           children: [
             { title: 'Modal 弹窗', link: '/components/modal' },
+            { title: 'Drawer 抽屉', link: '/components/drawer' },
           ],
         },
       ],
