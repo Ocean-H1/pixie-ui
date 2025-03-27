@@ -58,6 +58,7 @@ export default defineConfig({
             { title: 'Table 表格', link: '/components/table' },
             { title: 'Card 卡片', link: '/components/card' },
             { title: 'Tooltip 提示', link: '/components/tooltip' },
+            { title: 'Carousel 走马灯', link: '/components/carousel' },
           ],
         },
         {
