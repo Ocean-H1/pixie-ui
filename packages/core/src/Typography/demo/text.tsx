@@ -19,7 +19,7 @@ const App: React.FC = () => (
     <Text strong>加粗文本</Text>
     <Text italic>斜体文本</Text>
     <Text copyable>可复制文本</Text>
-    <Text ellipsis style={{ width: '100px' }}>
+    <Text ellipsis styles={{ width: '100px' }}>
       这是一段很长的文本，会自动省略显示
     </Text>
   </Space>

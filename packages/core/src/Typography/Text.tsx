@@ -73,6 +73,10 @@ export interface TextProps {
    * 子元素
    */
   children?: React.ReactNode;
+  /**
+   * 自定义样式
+   */
+  styles?: React.CSSProperties;
 }
 
 // 可编辑文本的配置接口
@@ -175,6 +179,7 @@ export const Text: React.FC<TextProps> = ({
   type,
   underline = false,
   children,
+  styles,
   ...rest
 }) => {
   const theme = useTheme();
@@ -197,6 +202,7 @@ export const Text: React.FC<TextProps> = ({
       theme={theme}
       onClick={disabled ? undefined : onClick}
       {...rest}
+      style={styles}
     >
       {children}
     </StyledText>
