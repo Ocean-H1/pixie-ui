@@ -17,6 +17,7 @@ export * from './Tooltip';
 export * from './Carousel';
 export * from './Typography';
 export * from './Skeleton';
+export * from './Watermark';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 

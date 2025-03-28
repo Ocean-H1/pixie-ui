@@ -74,6 +74,7 @@ export default defineConfig({
           children: [
             { title: 'Modal 弹窗', link: '/components/modal' },
             { title: 'Drawer 抽屉', link: '/components/drawer' },
+            { title: 'Watermark 水印', link: '/components/watermark' },
           ],
         },
       ],
