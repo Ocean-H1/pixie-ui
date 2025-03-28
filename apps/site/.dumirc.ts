@@ -75,6 +75,7 @@ export default defineConfig({
             { title: 'Modal 弹窗', link: '/components/modal' },
             { title: 'Drawer 抽屉', link: '/components/drawer' },
             { title: 'Watermark 水印', link: '/components/watermark' },
+            { title: 'Progress 进度条', link: '/components/progress' },
           ],
         },
       ],
