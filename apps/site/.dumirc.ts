@@ -60,6 +60,7 @@ export default defineConfig({
             { title: 'Card 卡片', link: '/components/card' },
             { title: 'Tooltip 提示', link: '/components/tooltip' },
             { title: 'Carousel 走马灯', link: '/components/carousel' },
+            { title: 'Skeleton 骨架屏', link: '/components/skeleton' },
           ],
         },
         {

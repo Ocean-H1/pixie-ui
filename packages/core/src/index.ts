@@ -16,6 +16,7 @@ export type { DrawerProps, DrawerPlacement, DrawerSize } from './Drawer';
 export * from './Tooltip';
 export * from './Carousel';
 export * from './Typography';
+export * from './Skeleton';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 
