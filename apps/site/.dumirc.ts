@@ -76,6 +76,7 @@ export default defineConfig({
             { title: 'Drawer 抽屉', link: '/components/drawer' },
             { title: 'Watermark 水印', link: '/components/watermark' },
             { title: 'Progress 进度条', link: '/components/progress' },
+            { title: 'Message 消息', link: '/components/message' },
           ],
         },
       ],

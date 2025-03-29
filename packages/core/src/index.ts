@@ -19,6 +19,7 @@ export * from './Typography';
 export * from './Skeleton';
 export * from './Watermark';
 export * from './Progress';
+export * from './Message';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 
