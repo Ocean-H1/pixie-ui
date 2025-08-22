@@ -1,5 +1,11 @@
 # @pixie-ui/core
 
+## 1.0.3
+
+### Patch Changes
+
+- 添加@iconify/react依赖
+
 ## 1.0.2
 
 ### Patch Changes

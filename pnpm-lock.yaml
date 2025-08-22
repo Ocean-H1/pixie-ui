@@ -124,6 +124,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.11.0
         version: 11.14.1(@emotion/react@11.14.0)(@types/react@18.3.23)(react@18.3.1)
+      '@iconify/react':
+        specifier: ^5.2.0
+        version: 5.2.1(react@18.3.1)
       '@pixie-ui/hooks':
         specifier: workspace:*
         version: link:../hooks
@@ -134,9 +137,6 @@ importers:
         specifier: workspace:*
         version: link:../utils
     devDependencies:
-      '@iconify/react':
-        specifier: ^5.2.0
-        version: 5.2.1(react@18.3.1)
       '@testing-library/jest-dom':
         specifier: ^6.1.5
         version: 6.8.0
@@ -2195,11 +2195,10 @@ packages:
     dependencies:
       '@iconify/types': 2.0.0
       react: 18.3.1
-    dev: true
+    dev: false
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
-    dev: true
 
   /@iconify/utils@2.1.1:
     resolution: {integrity: sha512-H8xz74JDzDw8f0qLxwIaxFMnFkbXTZNWEufOk3WxaLFHV4h0A2FjIDgNk5LzC0am4jssnjdeJJdRs3UFu3582Q==}

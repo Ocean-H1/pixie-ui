@@ -1,6 +1,6 @@
 {
   "name": "@pixie-ui/core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Pixie UI组件库核心组件",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -39,12 +39,12 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@iconify/react": "^5.2.0",
     "@pixie-ui/hooks": "workspace:*",
     "@pixie-ui/theme": "workspace:*",
     "@pixie-ui/utils": "workspace:*"
   },
   "devDependencies": {
-    "@iconify/react": "^5.2.0",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "react": "^18.2.0",
