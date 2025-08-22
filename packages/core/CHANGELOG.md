@@ -1,5 +1,11 @@
 # @pixie-ui/core
 
+## 1.0.2
+
+### Patch Changes
+
+- pixie-ui核心库 republish package previously unpublished
+
 ## 1.0.1
 
 ### Patch Changes
