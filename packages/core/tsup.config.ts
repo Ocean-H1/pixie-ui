@@ -13,11 +13,11 @@ export default defineConfig({
   external: [
     'react',
     'react-dom',
-    '@emotion/react',
-    '@emotion/styled',
-    '@pixie-ui/hooks',
-    '@pixie-ui/theme',
-    '@pixie-ui/utils',
-    '@iconify/react',
+    // '@emotion/react',
+    // '@emotion/styled',
+    // '@pixie-ui/hooks',
+    // '@pixie-ui/theme',
+    // '@pixie-ui/utils',
+    // '@iconify/react',
   ],
 }); 

@@ -1,5 +1,11 @@
 # @pixie-ui/hooks
 
+## 1.0.2
+
+### Patch Changes
+
+- 处理组件库外部依赖
+
 ## 1.0.1
 
 ### Patch Changes

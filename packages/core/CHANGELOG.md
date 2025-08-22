@@ -1,5 +1,14 @@
 # @pixie-ui/core
 
+## 1.0.4
+
+### Patch Changes
+
+- 处理组件库外部依赖
+- Updated dependencies
+  - @pixie-ui/hooks@1.0.2
+  - @pixie-ui/theme@1.0.2
+
 ## 1.0.3
 
 ### Patch Changes

@@ -12,7 +12,7 @@ export default defineConfig({
   treeshake: true,
   external: [
     'react',
-    '@testing-library/react-hooks',
+    // '@testing-library/react-hooks',
   ],
   banner: {
     js: '"use client";',

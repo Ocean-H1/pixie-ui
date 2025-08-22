@@ -6,8 +6,8 @@ export default defineConfig({
   entry: ['src/index.ts'],
   external: [
     'react',
-    '@emotion/react',
-    '@emotion/styled',
+    // '@emotion/react',
+    // '@emotion/styled',
   ],
   noExternal: ['@emotion/*'],
   banner: {
