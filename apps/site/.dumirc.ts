@@ -51,6 +51,7 @@ export default defineConfig({
             { title: 'Form 表单', link: '/components/form' },
             { title: 'Rate 评分', link: '/components/rate' },
             { title: 'Select 选择器', link: '/components/select' },
+            { title: 'Checkbox 复选框', link: '/components/checkbox' },
           ],
         },
         {

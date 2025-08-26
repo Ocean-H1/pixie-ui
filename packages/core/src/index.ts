@@ -20,6 +20,7 @@ export * from './Skeleton';
 export * from './Watermark';
 export * from './Progress';
 export * from './Message';
+export * from './Checkbox';
 
 // 重新导出主题
 export * from '@pixie-ui/theme'; 
