@@ -116,47 +116,58 @@ export interface Theme {
 
 export const lightTheme: Theme = {
   colors: {
-    primary: '#1976d2',
-    secondary: '#9c27b0',
-    success: '#2e7d32',
-    warning: '#ed6c02',
-    error: '#d32f2f',
-    info: '#0288d1',
+    // 主色调 - 使用更现代的蓝色系，参考 Chakra UI 的 blue.500
+    primary: '#3182ce',
+    // 次要色调 - 使用优雅的紫色系
+    secondary: '#805ad5',
+    // 成功色 - 使用清新的绿色
+    success: '#38a169',
+    // 警告色 - 使用温暖的橙色
+    warning: '#dd6b20',
+    // 错误色 - 使用鲜明的红色
+    error: '#e53e3e',
+    // 信息色 - 使用明亮的青色
+    info: '#00b5d8',
+    // 金色 - 保持原有的金色
     gold: '#fadb14',
     background: {
       default: '#ffffff',
       paper: '#ffffff',
     },
-    surface: '#f5f5f5',
+    // 表面色 - 使用更柔和的灰色
+    surface: '#f7fafc',
     text: {
-      primary: 'rgba(0, 0, 0, 0.87)',
-      secondary: 'rgba(0, 0, 0, 0.6)',
-      disabled: 'rgba(0, 0, 0, 0.38)',
+      primary: 'rgb(255, 255, 255)',
+      secondary: 'rgb(255, 255, 255)',
+      disabled: 'rgba(0, 0, 0, 0.25)',
     },
-    border: 'rgba(0, 0, 0, 0.12)',
-    divider: 'rgba(0, 0, 0, 0.12)',
+    // 边框色 - 使用更柔和的灰色
+    border: 'rgba(0, 0, 0, 0.08)',
+    divider: 'rgba(0, 0, 0, 0.08)',
     mask: 'rgba(0, 0, 0, 0.45)',
     skeleton: {
-      background: 'rgba(0, 0, 0, 0.08)',
+      background: 'rgba(0, 0, 0, 0.06)',
     },
     hover: {
-      primary: '#1565c0',
-      secondary: '#7b1fa2',
-      text: 'rgba(25, 118, 210, 0.08)',
+      // 悬停色 - 使用更深的色调
+      primary: '#2c5aa0',
+      secondary: '#6b46c1',
+      text: 'rgba(49, 130, 206, 0.08)',
     },
     disabled: {
-      background: 'rgba(0, 0, 0, 0.12)',
+      background: 'rgba(0, 0, 0, 0.08)',
       foreground: 'rgba(0, 0, 0, 0.26)',
     },
     menu: {
-      selectedBg: 'rgba(25, 118, 210, 0.12)',
-      selectedHoverBg: 'rgba(25, 118, 210, 0.18)',
+      selectedBg: 'rgba(49, 130, 206, 0.12)',
+      selectedHoverBg: 'rgba(49, 130, 206, 0.18)',
     },
   },
   shadows: {
-    sm: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-    md: '0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12)',
-    lg: '0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1)',
+    // 优化阴影效果，使其更自然
+    sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
   },
   spacing: {
     xs: '4px',
@@ -220,31 +231,37 @@ export const darkTheme: Theme = {
     ...lightTheme.colors,
     gold: '#fadb14',
     background: {
-      default: '#121212',
-      paper: '#1e1e1e',
+      // 暗色主题背景 - 使用更深的灰色
+      default: '#1a202c',
+      paper: '#2d3748',
     },
-    surface: '#1e1e1e',
+    // 暗色主题表面色
+    surface: '#2d3748',
     text: {
       primary: 'rgba(255, 255, 255, 0.87)',
       secondary: 'rgba(255, 255, 255, 0.6)',
       disabled: 'rgba(255, 255, 255, 0.38)',
     },
-    border: 'rgba(255, 255, 255, 0.12)',
-    divider: 'rgba(255, 255, 255, 0.12)',
+    // 暗色主题边框色
+    border: 'rgba(255, 255, 255, 0.08)',
+    divider: 'rgba(255, 255, 255, 0.08)',
     mask: 'rgba(0, 0, 0, 0.65)',
     skeleton: {
-      background: 'rgba(255, 255, 255, 0.08)',
+      background: 'rgba(255, 255, 255, 0.06)',
     },
     hover: {
-      ...lightTheme.colors.hover,
+      // 暗色主题悬停色
+      primary: '#63b3ed',
+      secondary: '#9f7aea',
+      text: 'rgba(99, 179, 237, 0.12)',
     },
     disabled: {
-      background: 'rgba(255, 255, 255, 0.12)',
+      background: 'rgba(255, 255, 255, 0.08)',
       foreground: 'rgba(255, 255, 255, 0.3)',
     },
     menu: {
-      selectedBg: 'rgba(25, 118, 210, 0.24)',
-      selectedHoverBg: 'rgba(25, 118, 210, 0.32)',
+      selectedBg: 'rgba(99, 179, 237, 0.24)',
+      selectedHoverBg: 'rgba(99, 179, 237, 0.32)',
     },
   },
   controlSizes: {
