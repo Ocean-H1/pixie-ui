@@ -1,5 +1,12 @@
 # @pixie-ui/theme
 
+## 1.1.0
+
+### Minor Changes
+
+- 主题系统更新
+- 64767fe: Button组件新增Props: color, 主题系统更新
+
 ## 1.0.2
 
 ### Patch Changes

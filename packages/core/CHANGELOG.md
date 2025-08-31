@@ -1,5 +1,19 @@
 # @pixie-ui/core
 
+## 1.1.0
+
+### Minor Changes
+
+- 2e7a6ea: 新增checkbox组件
+- 合并Button组件Props: color variant
+
+### Patch Changes
+
+- 64767fe: Button组件新增Props: color, 主题系统更新
+- Updated dependencies
+- Updated dependencies [64767fe]
+  - @pixie-ui/theme@1.1.0
+
 ## 1.0.4
 
 ### Patch Changes

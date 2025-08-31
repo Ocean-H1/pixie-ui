@@ -2,9 +2,17 @@ import React, { ButtonHTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { Theme, useTheme } from '@pixie-ui/theme';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'text';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'text' // 基础变体
+  | 'error'
+  | 'warning'
+  | 'success'
+  | 'info'
+  | 'gold' // 语义化变体
+  | string; // 自定义颜色值
 export type ButtonSize = 'small' | 'medium' | 'large';
-export type ButtonColor = 'danger' | 'warning' | 'success' | 'info' | string;
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -23,39 +31,13 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    */
   disabled?: boolean;
   /**
-   * 自定义背景颜色
-   * 可以是预定义的颜色名称（'danger', 'warning', 'success', 'info'）或自定义颜色值
-   */
-  color?: ButtonColor;
-  /**
    * 按钮内容
    */
   children: React.ReactNode;
 }
 
-// 获取预定义颜色值
-const getPredefinedColor = (color: ButtonColor, theme: Theme): string => {
-  switch (color) {
-    case 'danger':
-      return theme.colors.error;
-    case 'warning':
-      return theme.colors.warning;
-    case 'success':
-      return theme.colors.success;
-    case 'info':
-      return theme.colors.info;
-    default:
-      return color; // 如果是自定义颜色值，直接返回
-  }
-};
-
 // 获取按钮背景色
-const getBackgroundColor = (variant: ButtonVariant, theme: Theme, customColor?: ButtonColor) => {
-  // 如果提供了自定义颜色，优先使用自定义颜色
-  if (customColor) {
-    return getPredefinedColor(customColor, theme);
-  }
-  
+const getBackgroundColor = (variant: ButtonVariant, theme: Theme) => {
   switch (variant) {
     case 'primary':
       return theme.colors.primary;
@@ -63,21 +45,28 @@ const getBackgroundColor = (variant: ButtonVariant, theme: Theme, customColor?: 
       return theme.colors.secondary;
     case 'text':
       return 'transparent';
+    case 'error':
+      return theme.colors.error;
+    case 'warning':
+      return theme.colors.warning;
+    case 'success':
+      return theme.colors.success;
+    case 'info':
+      return theme.colors.info;
+    case 'gold':
+      return theme.colors.gold;
     default:
-      return theme.colors.primary;
+      return variant;
   }
 };
 
 // 获取按钮文字颜色
-const getColor = (variant: ButtonVariant, theme: Theme, customColor?: ButtonColor) => {
+const getColor = (variant: ButtonVariant, theme: Theme) => {
   switch (variant) {
-    case 'primary':
-    case 'secondary':
-      return theme.colors.text.primary;
     case 'text':
-      return customColor ? getPredefinedColor(customColor, theme) : theme.colors.primary;
+      return theme.colors.primary;
     default:
-      return theme.colors.text.primary;
+      return '#fff';
   }
 };
 
@@ -95,14 +84,7 @@ const getBorder = (variant: ButtonVariant) => {
 };
 
 // 获取按钮悬停背景色
-const getHoverBackgroundColor = (variant: ButtonVariant, theme: Theme, customColor?: ButtonColor) => {
-  // 如果提供了自定义颜色，生成悬停色（稍微变暗）
-  if (customColor) {
-    const colorValue = getPredefinedColor(customColor, theme);
-    // 简单的颜色变暗逻辑，可以通过 CSS 变量或更复杂的颜色处理库来实现
-    return colorValue;
-  }
-  
+const getHoverBackgroundColor = (variant: ButtonVariant, theme: Theme) => {
   switch (variant) {
     case 'primary':
       return theme.colors.hover.primary;
@@ -147,7 +129,6 @@ const getFontSize = (size: ButtonSize, theme: Theme) => {
 const StyledButton = styled.button<{
   $variant: ButtonVariant;
   $size: ButtonSize;
-  $customColor?: ButtonColor;
   theme: Theme;
 }>`
   display: inline-flex;
@@ -159,32 +140,32 @@ const StyledButton = styled.button<{
   border: ${({ $variant }) => getBorder($variant)};
   border-radius: ${({ theme }) => theme.radii.sm};
   padding: ${({ $size, theme }) => getPadding($size, theme)};
-  background-color: ${({ $variant, theme, $customColor }) => getBackgroundColor($variant, theme, $customColor)};
-  color: ${({ $variant, theme, $customColor }) => getColor($variant, theme, $customColor)};
+  background-color: ${({ $variant, theme }) => getBackgroundColor($variant, theme)};
+  color: ${({ $variant, theme }) => getColor($variant, theme)};
   font-family: inherit;
   font-size: ${({ $size, theme }) => getFontSize($size, theme)};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   min-width: 64px;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+  transition:
+    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
     color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   cursor: pointer;
   user-select: none;
   text-decoration: none;
-  
+
   &:hover {
-    background-color: ${({ $variant, theme, $customColor }) => getHoverBackgroundColor($variant, theme, $customColor)};
-    ${({ $customColor }) => $customColor && `
-      filter: brightness(0.9);
-    `}
+    background-color: ${({ $variant, theme }) => getHoverBackgroundColor($variant, theme)};
+    filter: brightness(0.9);
   }
-  
+
   &:disabled {
     color: ${({ theme }) => theme.colors.text.disabled};
-    background-color: ${({ $variant, theme }) => $variant === 'text' ? 'transparent' : theme.colors.disabled.background};
+    background-color: ${({ $variant, theme }) =>
+      $variant === 'text' ? 'transparent' : theme.colors.disabled.background};
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -206,15 +187,8 @@ export const Button: React.FC<ButtonProps> = ({
   const theme = useTheme();
 
   return (
-    <StyledButton
-      $variant={variant}
-      $size={size}
-      $customColor={color}
-      disabled={disabled}
-      theme={theme}
-      {...rest}
-    >
+    <StyledButton $variant={variant} $size={size} disabled={disabled} theme={theme} {...rest}>
       {children}
     </StyledButton>
   );
-}; 
+};
