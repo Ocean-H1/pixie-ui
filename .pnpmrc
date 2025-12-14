@@ -1,0 +1,4 @@
+# 1. 禁用符号链接，改用硬链接（避免路径拼接问题）
+symlink=false
+# 2. 强制使用隔离模式，减少嵌套层级
+node-linker=isolated
